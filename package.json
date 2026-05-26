@@ -4,7 +4,6 @@
   "private": true,
   "description": "Google Maps Public Presence Analyzer for small shops.",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
+    "dev": "node server.js"
   }
 }
