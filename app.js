@@ -62,7 +62,11 @@ placeSearchButton.addEventListener("click", async () => {
     }
 
     renderCandidates(data.candidates || []);
-    setCandidateStatus(data.configured ? "Google Maps上の候補です。" : "サンプル候補です。");
+    setCandidateStatus(
+      data.configured
+        ? "このお店で良ければ候補をクリックしてください。"
+        : "サンプル候補です。良ければクリックしてください。"
+    );
   } catch (error) {
     setCandidateStatus(error.message || "候補を取得できませんでした。");
   } finally {
@@ -141,7 +145,7 @@ function renderCandidates(candidates) {
       button.classList.add("is-selected");
       placeIdInput.value = candidate.place_id || "";
       document.querySelector("#maps-url").value = candidate.google_maps_url || "";
-      setCandidateStatus("この候補で診断できます。");
+      setCandidateStatus("選択しました。下の診断ボタンで進めます。");
     });
     return button;
   }));
