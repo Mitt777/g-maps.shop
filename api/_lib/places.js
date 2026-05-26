@@ -156,7 +156,7 @@ async function searchPlaces(input, apiKey) {
 
 async function analyzePublicPresence(input) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
-  const placeId = extractPlaceId(input.maps_url);
+  const placeId = compact(input.place_id) || extractPlaceId(input.maps_url);
   const query = [input.store_name || input.query, input.area].map(compact).filter(Boolean).join(" ") || compact(input.maps_url);
 
   if (!apiKey) {
@@ -183,5 +183,6 @@ async function analyzePublicPresence(input) {
 }
 
 module.exports = {
-  analyzePublicPresence
+  analyzePublicPresence,
+  searchPlaces
 };

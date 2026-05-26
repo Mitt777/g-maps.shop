@@ -14,10 +14,11 @@ module.exports = async function handler(request, response) {
 
     const body = await readJsonBody(request);
     const mapsUrl = compact(body.maps_url || body.google_maps_url || body.url);
+    const placeId = compact(body.place_id);
     const storeName = compact(body.store_name || body.store_query || body.query);
     const area = compact(body.area);
 
-    if (!mapsUrl && !storeName && !area) {
+    if (!mapsUrl && !placeId && !storeName && !area) {
       return sendJson(response, 400, {
         ok: false,
         message: "Google Maps URL、または 店名 + 地域 を入力してください。"
@@ -26,6 +27,7 @@ module.exports = async function handler(request, response) {
 
     const input = {
       maps_url: mapsUrl,
+      place_id: placeId,
       store_name: storeName,
       area,
       language: compact(body.language) || "ja",

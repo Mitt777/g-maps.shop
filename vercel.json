@@ -24,6 +24,10 @@
       "dest": "/api/analyze-place.js"
     },
     {
+      "src": "/api/place-search",
+      "dest": "/api/place-search.js"
+    },
+    {
       "src": "/styles.css",
       "dest": "/styles.css"
     },

@@ -1,6 +1,13 @@
 const form = document.querySelector("#analyze-form");
 const statusMessage = document.querySelector("#status-message");
-const submitButton = form.querySelector("button");
+const submitButton = document.querySelector("#analyze-button");
+const placeSearchButton = document.querySelector("#place-search-button");
+const mapsHelpToggle = document.querySelector("#maps-help-toggle");
+const mapsHelp = document.querySelector("#maps-url-help");
+const candidatePanel = document.querySelector("#candidate-panel");
+const candidateStatus = document.querySelector("#candidate-status");
+const candidateList = document.querySelector("#candidate-list");
+const placeIdInput = document.querySelector("#place-id");
 
 const fields = {
   score: document.querySelector("#score-value"),
@@ -17,17 +24,58 @@ const fields = {
   fixes: document.querySelector("#quick-fixes")
 };
 
+mapsHelpToggle.addEventListener("click", () => {
+  const isOpen = !mapsHelp.hidden;
+  mapsHelp.hidden = isOpen;
+  mapsHelpToggle.setAttribute("aria-expanded", String(!isOpen));
+});
+
+["#maps-url", "#store-name", "#area"].forEach((selector) => {
+  document.querySelector(selector).addEventListener("input", () => {
+    placeIdInput.value = "";
+  });
+});
+
+placeSearchButton.addEventListener("click", async () => {
+  const payload = formPayload();
+
+  if (!payload.store_name && !payload.area) {
+    setCandidateStatus("店名と地域を入力してください。");
+    return;
+  }
+
+  placeSearchButton.disabled = true;
+  candidatePanel.hidden = false;
+  candidateList.replaceChildren();
+  setCandidateStatus("店舗候補を探しています...");
+
+  try {
+    const response = await fetch("/api/place-search", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.message || "候補を取得できませんでした。");
+    }
+
+    renderCandidates(data.candidates || []);
+    setCandidateStatus(data.configured ? "Google Maps上の候補です。" : "サンプル候補です。");
+  } catch (error) {
+    setCandidateStatus(error.message || "候補を取得できませんでした。");
+  } finally {
+    placeSearchButton.disabled = false;
+  }
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const formData = new FormData(form);
-  const payload = {
-    maps_url: String(formData.get("maps_url") || "").trim(),
-    store_name: String(formData.get("store_name") || "").trim(),
-    area: String(formData.get("area") || "").trim()
-  };
+  const payload = formPayload();
 
-  if (!payload.maps_url && !payload.store_name && !payload.area) {
+  if (!payload.maps_url && !payload.place_id && !payload.store_name && !payload.area) {
     setStatus("Google Maps URL、または 店名 + 地域 を入力してください。", "error");
     return;
   }
@@ -60,6 +108,44 @@ form.addEventListener("submit", async (event) => {
     submitButton.disabled = false;
   }
 });
+
+function formPayload() {
+  const formData = new FormData(form);
+  return {
+    maps_url: String(formData.get("maps_url") || "").trim(),
+    place_id: String(formData.get("place_id") || "").trim(),
+    store_name: String(formData.get("store_name") || "").trim(),
+    area: String(formData.get("area") || "").trim()
+  };
+}
+
+function renderCandidates(candidates) {
+  if (candidates.length === 0) {
+    candidateList.replaceChildren();
+    setCandidateStatus("候補が見つかりませんでした。店名や地域を少し変えてください。");
+    return;
+  }
+
+  candidateList.replaceChildren(...candidates.map((candidate) => {
+    const button = document.createElement("button");
+    button.className = "candidate-card";
+    button.type = "button";
+    button.dataset.placeId = candidate.place_id || "";
+    button.innerHTML = `
+      <strong>${escapeHtml(candidate.name || "Unknown place")}</strong>
+      <span>${escapeHtml([candidate.address, candidate.category].filter(Boolean).join(" / ") || "住所・カテゴリ未取得")}</span>
+      <span>${escapeHtml(candidate.rating ? `Rating ${candidate.rating} / Reviews ${candidate.review_count || "n/a"}` : "Google Maps candidate")}</span>
+    `;
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".candidate-card").forEach((item) => item.classList.remove("is-selected"));
+      button.classList.add("is-selected");
+      placeIdInput.value = candidate.place_id || "";
+      document.querySelector("#maps-url").value = candidate.google_maps_url || "";
+      setCandidateStatus("この候補で診断できます。");
+    });
+    return button;
+  }));
+}
 
 function renderResult(data) {
   const place = data.place || {};
@@ -105,4 +191,19 @@ function summaryFor(score) {
 function setStatus(message, state) {
   statusMessage.textContent = message;
   statusMessage.dataset.state = state;
+}
+
+function setCandidateStatus(message) {
+  candidatePanel.hidden = false;
+  candidateStatus.textContent = message;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
 }

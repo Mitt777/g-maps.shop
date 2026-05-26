@@ -53,7 +53,9 @@ main {
 .brand,
 .top-nav,
 .axis-row,
-.service-links {
+.service-links,
+.label-row,
+.lookup-row {
   display: flex;
   align-items: center;
 }
@@ -191,6 +193,12 @@ label {
   font-weight: 650;
 }
 
+.label-row,
+.lookup-row {
+  justify-content: space-between;
+  gap: 12px;
+}
+
 input {
   width: 100%;
   border: 1px solid var(--line);
@@ -230,6 +238,40 @@ input:focus {
   gap: 12px;
 }
 
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  padding: 0;
+}
+
+.help-box,
+.candidate-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfb;
+  padding: 12px 14px;
+}
+
+.help-box ol {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.lookup-row {
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .primary-button {
   min-height: 48px;
   display: inline-flex;
@@ -253,6 +295,78 @@ input:focus {
 .primary-button:disabled {
   cursor: progress;
   opacity: 0.7;
+}
+
+.secondary-button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  padding: 0 13px;
+}
+
+.secondary-button:hover {
+  border-color: rgba(31, 111, 88, 0.42);
+  color: var(--accent-strong);
+}
+
+.secondary-button:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.candidate-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.candidate-panel[hidden] {
+  display: none;
+}
+
+.candidate-status {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.candidate-list {
+  display: grid;
+  gap: 8px;
+}
+
+.candidate-card {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  padding: 11px 12px;
+  text-align: left;
+}
+
+.candidate-card:hover,
+.candidate-card.is-selected {
+  border-color: rgba(31, 111, 88, 0.56);
+  box-shadow: 0 0 0 3px rgba(31, 111, 88, 0.08);
+}
+
+.candidate-card strong {
+  font-size: 14px;
+}
+
+.candidate-card span {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .form-note,
@@ -429,11 +543,13 @@ dd {
   .metric-grid,
   .place-facts,
   .field-grid,
-  .service-links {
+  .service-links,
+  .lookup-row {
     grid-template-columns: 1fr;
   }
 
-  .service-links {
+  .service-links,
+  .lookup-row {
     display: grid;
   }
 }

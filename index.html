@@ -46,8 +46,14 @@
           </div>
 
           <form id="analyze-form" class="analyze-form">
+            <input id="place-id" name="place_id" type="hidden" />
             <label>
-              <span>Google Maps URL</span>
+              <span class="label-row">
+                <span>Google Maps URL</span>
+                <button class="text-button" type="button" aria-expanded="false" aria-controls="maps-url-help" id="maps-help-toggle">
+                  URLの探し方
+                </button>
+              </span>
               <input
                 id="maps-url"
                 name="maps_url"
@@ -57,6 +63,13 @@
                 placeholder="https://maps.app.goo.gl/..."
               />
             </label>
+            <div class="help-box" id="maps-url-help" hidden>
+              <ol>
+                <li>Google Mapsでお店を開く</li>
+                <li>共有を押してリンクをコピー</li>
+                <li>ここに貼り付ける</li>
+              </ol>
+            </div>
 
             <div class="or-line"><span>または</span></div>
 
@@ -70,8 +83,16 @@
                 <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
               </label>
             </div>
+            <div class="lookup-row">
+              <button class="secondary-button" id="place-search-button" type="button">店舗候補を探す</button>
+              <span>URLがなくても、公開候補から選べます。</span>
+            </div>
+            <div class="candidate-panel" id="candidate-panel" hidden>
+              <p class="candidate-status" id="candidate-status">候補を確認してください。</p>
+              <div class="candidate-list" id="candidate-list"></div>
+            </div>
 
-            <button class="primary-button" type="submit">
+            <button class="primary-button" id="analyze-button" type="submit">
               <span>Google Mapsの見え方を診断する</span>
               <span aria-hidden="true">→</span>
             </button>
