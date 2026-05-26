@@ -154,6 +154,11 @@ function applyMapsDiagnosis(report, diagnosis) {
   if (diagnosis.paid_boundary) {
     report.paid_preview.handoff = diagnosis.paid_boundary;
   }
+  report.ai_insight = {
+    summary: (diagnosis.summary || []).join(" ").slice(0, 120),
+    actions: (diagnosis.quick_fixes || []).slice(0, 3),
+    paid_boundary: diagnosis.paid_boundary
+  };
 
   report.free_insight.score_note = `Maps ${report.maps_presence_score} / Tourist ${report.tourist_ready} / AI ${report.ai_readability} / Save ${report.saveability}`;
   return report;
@@ -235,7 +240,9 @@ async function analyzePublicPresence(input) {
   if (place && report) {
     const diagnosis = await generateMapsPublicDiagnosis(place, competitors, report).catch(() => null);
     applyMapsDiagnosis(report, diagnosis);
-    report.ai_insight = await generateMapsInsight(place, report).catch(() => null);
+    if (!diagnosis) {
+      report.ai_insight = await generateMapsInsight(place, report).catch(() => null);
+    }
   }
 
   return {
