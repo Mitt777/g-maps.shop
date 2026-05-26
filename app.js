@@ -21,7 +21,16 @@ const fields = {
   reviews: document.querySelector("#reviews-value"),
   photos: document.querySelector("#photos-value"),
   website: document.querySelector("#website-value"),
-  fixes: document.querySelector("#quick-fixes")
+  fixes: document.querySelector("#quick-fixes"),
+  aiInsightSummary: document.querySelector("#ai-insight-summary"),
+  aiInsightActions: document.querySelector("#ai-insight-actions"),
+  publicLayers: document.querySelector("#public-layers"),
+  comparisonReviews: document.querySelector("#comparison-reviews"),
+  comparisonRating: document.querySelector("#comparison-rating"),
+  comparisonPhotos: document.querySelector("#comparison-photos"),
+  comparisonNote: document.querySelector("#comparison-note"),
+  paidHandoff: document.querySelector("#paid-handoff"),
+  paidPreview: document.querySelector("#paid-preview")
 };
 
 mapsHelpToggle.addEventListener("click", () => {
@@ -169,6 +178,52 @@ function renderResult(data) {
   fields.website.textContent = place.website_url || place.website_uri ? "Found" : "Missing";
 
   fields.fixes.replaceChildren(...(report.quick_fixes || []).map((text) => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    return item;
+  }));
+
+  renderInsight(report);
+  renderPublicLayers(report.public_layers || []);
+  renderComparison(report.comparison || {});
+  renderPaidPreview(report.paid_preview || {});
+}
+
+function renderInsight(report) {
+  const insight = report.ai_insight;
+  fields.aiInsightSummary.textContent = insight?.summary || "公開情報だけをもとに、来店前の不安と見つかりやすさを整理しています。";
+  const actions = insight?.actions?.length ? insight.actions : (report.maps_focus || []).map((item) => item.note).slice(0, 3);
+  fields.aiInsightActions.replaceChildren(...actions.map((text) => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    return item;
+  }));
+}
+
+function renderPublicLayers(layers) {
+  fields.publicLayers.replaceChildren(...layers.map((layer) => {
+    const item = document.createElement("div");
+    item.className = "layer-item";
+    item.innerHTML = `
+      <span>${escapeHtml(layer.label || "")}</span>
+      <strong>${escapeHtml(layer.title || "")}</strong>
+      <p>${escapeHtml(layer.note || "")}</p>
+    `;
+    return item;
+  }));
+}
+
+function renderComparison(comparison) {
+  fields.comparisonReviews.textContent = comparison.review_position || "未判定";
+  fields.comparisonRating.textContent = comparison.rating_position || "未判定";
+  fields.comparisonPhotos.textContent = comparison.photo_position || "未判定";
+  fields.comparisonNote.textContent = comparison.note || "店名 + 地域で診断すると、同じ検索で見つかった候補と比べられます。";
+}
+
+function renderPaidPreview(preview) {
+  fields.paidHandoff.textContent = preview.handoff || "無料診断の次に、Maps公開情報だけを深掘りします。";
+  const items = preview.items || [];
+  fields.paidPreview.replaceChildren(...items.map((text) => {
     const item = document.createElement("li");
     item.textContent = text;
     return item;

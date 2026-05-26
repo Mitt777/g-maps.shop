@@ -1,4 +1,5 @@
 const { scorePresence } = require("./scoring");
+const { generateMapsInsight } = require("./gemini");
 
 const SEARCH_ENDPOINT = "https://places.googleapis.com/v1/places:searchText";
 const DETAILS_ENDPOINT = "https://places.googleapis.com/v1/places";
@@ -170,15 +171,33 @@ async function analyzePublicPresence(input) {
     };
   }
 
-  const place = placeId ? await fetchPlaceById(placeId, apiKey) : (await searchPlaces(input, apiKey))[0] || null;
+  let candidates = [];
+  let place = null;
+
+  if (placeId) {
+    place = await fetchPlaceById(placeId, apiKey);
+    if (query) {
+      candidates = await searchPlaces(input, apiKey).catch(() => []);
+    }
+  } else {
+    candidates = await searchPlaces(input, apiKey);
+    place = candidates[0] || null;
+  }
+
+  const competitors = candidates.filter((candidate) => candidate.place_id !== place?.place_id).slice(0, 4);
+  const report = place ? scorePresence(place, competitors) : null;
+  if (place && report) {
+    report.ai_insight = await generateMapsInsight(place, report).catch(() => null);
+  }
 
   return {
     configured: true,
     mode: placeId ? "place-details" : "text-search",
     query,
-    candidates: place ? [place] : [],
+    candidates: place ? [place].concat(competitors) : candidates,
+    competitors,
     place,
-    report: place ? scorePresence(place) : null
+    report
   };
 }
 

@@ -165,7 +165,11 @@ h3 {
 .analyzer-panel,
 .score-card,
 .place-card,
-.fix-card {
+.fix-card,
+.insight-card,
+.detail-card,
+.comparison-card,
+.paid-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.9);
@@ -408,7 +412,11 @@ input:focus {
 
 .score-card,
 .place-card,
-.fix-card {
+.fix-card,
+.insight-card,
+.detail-card,
+.comparison-card,
+.paid-card {
   padding: 20px;
 }
 
@@ -467,11 +475,97 @@ dd {
   font-weight: 750;
 }
 
-.fix-card ul {
+.fix-card ul,
+.insight-card ul,
+.paid-card ul {
   display: grid;
   gap: 10px;
   margin: 0;
   padding-left: 18px;
+}
+
+.insight-card {
+  display: grid;
+  gap: 10px;
+  background:
+    linear-gradient(135deg, rgba(31, 111, 88, 0.08), rgba(255, 255, 255, 0.92)),
+    #fff;
+}
+
+.detail-card,
+.paid-card {
+  display: grid;
+  gap: 16px;
+  grid-column: 1 / -1;
+}
+
+.layer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.layer-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfb;
+  padding: 12px;
+}
+
+.layer-item strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.layer-item span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 750;
+  padding: 4px 8px;
+}
+
+.layer-item p,
+.comparison-card p,
+.paid-card p,
+.insight-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.comparison-card {
+  display: grid;
+  gap: 14px;
+}
+
+.comparison-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+
+.comparison-facts div {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.paid-card {
+  border-color: rgba(156, 111, 52, 0.35);
+  background:
+    linear-gradient(135deg, rgba(156, 111, 52, 0.1), rgba(31, 111, 88, 0.06)),
+    #fff;
+}
+
+.quiet-link {
+  color: var(--accent-strong);
+  font-size: 13px;
+  font-weight: 750;
 }
 
 .next-services {
@@ -542,6 +636,8 @@ dd {
 
   .metric-grid,
   .place-facts,
+  .comparison-facts,
+  .layer-grid,
   .field-grid,
   .service-links,
   .lookup-row {
