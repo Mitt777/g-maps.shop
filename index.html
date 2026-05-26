@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>g-maps.shop | Google Maps Public Presence Analyzer</title>
+    <meta
+      name="description"
+      content="Google Maps URLを貼るだけで、お店の公開情報、来店前情報、インバウンド視点、AI検索での見え方を軽く診断します。"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="g-maps.shop home">
+        <span class="brand-mark">gm</span>
+        <span>g-maps.shop</span>
+      </a>
+      <nav class="top-nav" aria-label="Related services">
+        <a href="https://okyakusa-ma.com">Deep analysis</a>
+        <a href="https://map-s.site">MAP page</a>
+        <a href="https://air-s.jp">Memory layer</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Google Maps Public Presence Analyzer</p>
+          <h1>Google Mapsで、あなたのお店はどう見えていますか。</h1>
+          <p class="lead">
+            Google Maps URLを貼るだけで、口コミ、写真、営業時間、Web導線、
+            インバウンド視点、AI検索での見え方を軽く診断します。
+          </p>
+          <div class="axis-row" aria-label="Diagnosis axes">
+            <span>Maps整備度</span>
+            <span>Tourist readiness</span>
+            <span>AI readability</span>
+          </div>
+        </div>
+
+        <section class="analyzer-panel" aria-labelledby="form-title">
+          <div class="panel-head">
+            <p class="eyebrow">No login required</p>
+            <h2 id="form-title">公開情報を診断する</h2>
+          </div>
+
+          <form id="analyze-form" class="analyze-form">
+            <label>
+              <span>Google Maps URL</span>
+              <input
+                id="maps-url"
+                name="maps_url"
+                type="url"
+                inputmode="url"
+                autocomplete="url"
+                placeholder="https://maps.app.goo.gl/..."
+              />
+            </label>
+
+            <div class="or-line"><span>または</span></div>
+
+            <div class="field-grid">
+              <label>
+                <span>店名</span>
+                <input id="store-name" name="store_name" type="text" autocomplete="organization" placeholder="例: Sample Coffee" />
+              </label>
+              <label>
+                <span>地域</span>
+                <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
+              </label>
+            </div>
+
+            <button class="primary-button" type="submit">
+              <span>Google Mapsの見え方を診断する</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <p class="form-note">
+              Google公式サービスではありません。Google Maps上の公開情報をもとに、お客様・観光客・AI検索からの見え方を整理します。
+            </p>
+          </form>
+        </section>
+      </section>
+
+      <section class="result-shell" aria-live="polite">
+        <div class="section-heading">
+          <p class="eyebrow">Preview</p>
+          <h2>診断結果</h2>
+        </div>
+
+        <div id="status-message" class="status-message">
+          サンプル結果を表示しています。フォーム送信後、入力内容に合わせた診断カードに更新されます。
+        </div>
+
+        <div class="result-layout">
+          <article class="score-card main-score">
+            <div>
+              <p class="card-label">Maps Presence Score</p>
+              <h3 id="score-value">72</h3>
+            </div>
+            <p id="score-summary">
+              来店前に必要な基本情報はある程度見えています。Web導線と到着前情報を整えると、保存・比較されやすくなります。
+            </p>
+          </article>
+
+          <div class="metric-grid">
+            <article class="score-card">
+              <p class="card-label">Tourist Ready</p>
+              <h3 id="tourist-score">66</h3>
+              <p>営業時間、写真、決済、アクセスの見え方。</p>
+            </article>
+            <article class="score-card">
+              <p class="card-label">AI Readability</p>
+              <h3 id="ai-score">70</h3>
+              <p>AI検索が説明しやすい店舗情報の整い方。</p>
+            </article>
+            <article class="score-card">
+              <p class="card-label">Saveability</p>
+              <h3 id="save-score">61</h3>
+              <p>行きたい・保存したいと思われる情報量。</p>
+            </article>
+          </div>
+
+          <article class="place-card">
+            <div>
+              <p class="card-label">Detected public profile</p>
+              <h3 id="place-name">Sample Coffee Stand</h3>
+              <p id="place-address">東京都渋谷区 / カフェ</p>
+            </div>
+            <dl class="place-facts">
+              <div>
+                <dt>Rating</dt>
+                <dd id="rating-value">4.2</dd>
+              </div>
+              <div>
+                <dt>Reviews</dt>
+                <dd id="reviews-value">38</dd>
+              </div>
+              <div>
+                <dt>Photos</dt>
+                <dd id="photos-value">7</dd>
+              </div>
+              <div>
+                <dt>Website</dt>
+                <dd id="website-value">Missing</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="fix-card">
+            <p class="card-label">Quick fixes</p>
+            <ul id="quick-fixes">
+              <li>Google Mapsから公式サイトや予約ページへ進める導線を追加する</li>
+              <li>入口、外観、代表商品、席、価格が分かる写真を増やす</li>
+              <li>駐車場、最寄駅、入口など到着前に迷いやすい情報を明確にする</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="next-services">
+        <div>
+          <p class="eyebrow">Next layer</p>
+          <h2>必要になったら、深く進める</h2>
+        </div>
+        <div class="service-links">
+          <a href="https://okyakusa-ma.com">
+            <span>okyakusa-ma.com</span>
+            <strong>詳細分析と店舗理解</strong>
+          </a>
+          <a href="https://map-s.site">
+            <span>map-s.site</span>
+            <strong>公開MAP/埋め込みページ化</strong>
+          </a>
+          <a href="https://air-s.jp">
+            <span>air-s.jp</span>
+            <strong>場所の記憶と感情レイヤー</strong>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>g-maps.shop is an independent public presence analyzer. It is not affiliated with Google.</p>
+    </footer>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

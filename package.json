@@ -1,0 +1,10 @@
+{
+  "name": "g-maps-shop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Google Maps Public Presence Analyzer for small shops.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  }
+}
