@@ -11,6 +11,18 @@ const placeIdInput = document.querySelector("#place-id");
 
 const fields = {
   score: document.querySelector("#score-value"),
+  reportPlaceName: document.querySelector("#report-place-name"),
+  reportSummary: document.querySelector("#report-summary"),
+  ringScore: document.querySelector("#ring-score"),
+  scoreRing: document.querySelector("#score-ring"),
+  metricMaps: document.querySelector("#metric-maps"),
+  metricTourist: document.querySelector("#metric-tourist"),
+  metricAi: document.querySelector("#metric-ai"),
+  metricSave: document.querySelector("#metric-save"),
+  metricPhoto: document.querySelector("#metric-photo"),
+  radarPolygon: document.querySelector("#radar-polygon"),
+  radarPoints: document.querySelector("#radar-points"),
+  priorityFix: document.querySelector("#priority-fix"),
   tourist: document.querySelector("#tourist-score"),
   ai: document.querySelector("#ai-score"),
   save: document.querySelector("#save-score"),
@@ -169,8 +181,26 @@ function renderCandidates(candidates) {
 function renderResult(data) {
   const place = data.place || {};
   const report = data.report || {};
+  const photoRouteScore = photoRouteValue(place, report);
 
   fields.score.textContent = formatScore(report.maps_presence_score);
+  fields.reportPlaceName.textContent = place.name || "Unknown place";
+  fields.ringScore.textContent = formatScore(report.maps_presence_score);
+  fields.scoreRing.style.setProperty("--score", Number(report.maps_presence_score || 0));
+  fields.metricMaps.textContent = formatScore(report.maps_presence_score);
+  fields.metricTourist.textContent = formatScore(report.tourist_ready);
+  fields.metricAi.textContent = formatScore(report.ai_readability);
+  fields.metricSave.textContent = formatScore(report.saveability);
+  fields.metricPhoto.textContent = formatScore(photoRouteScore);
+  fields.priorityFix.textContent = report.free_insight?.today_fix || report.quick_fixes?.[0] || "公開情報を確認する";
+  renderReportSummary(report.free_insight?.summary);
+  renderRadar([
+    Number(report.maps_presence_score || 0),
+    Number(report.tourist_ready || 0),
+    Number(report.ai_readability || 0),
+    Number(report.saveability || 0),
+    photoRouteScore
+  ]);
   fields.tourist.textContent = formatScore(report.tourist_ready);
   fields.ai.textContent = formatScore(report.ai_readability);
   fields.save.textContent = formatScore(report.saveability);
@@ -195,6 +225,45 @@ function renderResult(data) {
   renderDeepChecks(report.deep_checks || []);
   renderComparison(report.comparison || {});
   renderPaidPreview(report.paid_preview || {});
+}
+
+function renderReportSummary(summary) {
+  const lines = summary?.length ? summary : ["Google Maps上の公開情報をもとに、初来店客・観光客・AI検索からの見え方を整理します。"];
+  fields.reportSummary.replaceChildren(...lines.map((text) => {
+    const item = document.createElement("p");
+    item.textContent = text;
+    return item;
+  }));
+}
+
+function renderRadar(values) {
+  const center = { x: 120, y: 120 };
+  const maxRadius = 96;
+  const angles = [-90, -18, 54, 126, 198];
+  const points = values.map((value, index) => {
+    const radius = Math.max(0, Math.min(100, value)) / 100 * maxRadius;
+    const rad = angles[index] * Math.PI / 180;
+    return {
+      x: center.x + Math.cos(rad) * radius,
+      y: center.y + Math.sin(rad) * radius
+    };
+  });
+  fields.radarPolygon.setAttribute("points", points.map((point) => `${point.x.toFixed(1)},${point.y.toFixed(1)}`).join(" "));
+  fields.radarPoints.replaceChildren(...points.map((point) => {
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", point.x.toFixed(1));
+    circle.setAttribute("cy", point.y.toFixed(1));
+    circle.setAttribute("r", "7");
+    return circle;
+  }));
+}
+
+function photoRouteValue(place, report) {
+  const photos = Math.min(Number(place.photos_count || 0), 10) * 6;
+  const parking = report.checked_items?.find((item) => item.key === "parking")?.ok ? 20 : 0;
+  const website = report.checked_items?.find((item) => item.key === "website")?.ok ? 10 : 0;
+  const phone = report.checked_items?.find((item) => item.key === "phone")?.ok ? 10 : 0;
+  return Math.min(100, Math.round(photos + parking + website + phone));
 }
 
 function renderFreeInsight(insight) {

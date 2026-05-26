@@ -114,6 +114,50 @@
         </div>
 
         <div class="result-layout">
+          <article class="report-hero-card">
+            <div>
+              <p class="card-label">Public presence report</p>
+              <h3 id="report-place-name">Sample Coffee Stand</h3>
+              <div id="report-summary" class="report-summary">
+                <p>Google Maps上の公開情報をもとに、初来店客・観光客・AI検索からの見え方を整理します。</p>
+              </div>
+            </div>
+            <div class="score-ring" id="score-ring" style="--score: 72">
+              <strong id="ring-score">72</strong>
+              <span>/100</span>
+            </div>
+          </article>
+
+          <article class="radar-report-card">
+            <div class="radar-wrap">
+              <svg id="score-radar" viewBox="0 0 240 240" role="img" aria-label="5つの診断指標">
+                <polygon points="120,18 217,88 180,202 60,202 23,88" class="radar-grid-outer"></polygon>
+                <polygon points="120,59 178,101 156,169 84,169 62,101" class="radar-grid-inner"></polygon>
+                <line x1="120" y1="120" x2="120" y2="18"></line>
+                <line x1="120" y1="120" x2="217" y2="88"></line>
+                <line x1="120" y1="120" x2="180" y2="202"></line>
+                <line x1="120" y1="120" x2="60" y2="202"></line>
+                <line x1="120" y1="120" x2="23" y2="88"></line>
+                <polygon id="radar-polygon" points="120,48 188,98 162,177 78,177 52,98" class="radar-area"></polygon>
+                <g id="radar-points"></g>
+              </svg>
+            </div>
+            <div class="diagnosis-list">
+              <p class="card-label">5つの診断指標</p>
+              <p>Maps、観光客、AI検索、保存されやすさ、写真/導線をまとめて見ます。</p>
+              <div class="diagnosis-metric"><span class="dot maps"></span><strong>Maps整備度</strong><b id="metric-maps">72</b></div>
+              <div class="diagnosis-metric"><span class="dot tourist"></span><strong>Tourist Ready</strong><b id="metric-tourist">66</b></div>
+              <div class="diagnosis-metric"><span class="dot ai"></span><strong>AI Readability</strong><b id="metric-ai">70</b></div>
+              <div class="diagnosis-metric"><span class="dot save"></span><strong>Saveability</strong><b id="metric-save">61</b></div>
+              <div class="diagnosis-metric"><span class="dot photos"></span><strong>Photos / Route</strong><b id="metric-photo">58</b></div>
+            </div>
+            <aside class="priority-card">
+              <span>今すぐ直す1点</span>
+              <strong id="priority-fix">Google Mapsから公式サイトや予約ページへ進める導線を追加する</strong>
+              <p>無料診断で最初に確認したい改善ポイントです。</p>
+            </aside>
+          </article>
+
           <article class="free-summary-card">
             <div>
               <p class="card-label">Free diagnosis</p>
