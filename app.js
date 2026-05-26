@@ -22,6 +22,11 @@ const fields = {
   photos: document.querySelector("#photos-value"),
   website: document.querySelector("#website-value"),
   fixes: document.querySelector("#quick-fixes"),
+  freeSummary: document.querySelector("#free-summary"),
+  todayFix: document.querySelector("#today-fix"),
+  customerView: document.querySelector("#customer-view"),
+  touristView: document.querySelector("#tourist-view"),
+  aiSearchView: document.querySelector("#ai-search-view"),
   aiInsightSummary: document.querySelector("#ai-insight-summary"),
   aiInsightActions: document.querySelector("#ai-insight-actions"),
   publicLayers: document.querySelector("#public-layers"),
@@ -183,10 +188,24 @@ function renderResult(data) {
     return item;
   }));
 
+  renderFreeInsight(report.free_insight || {});
   renderInsight(report);
   renderPublicLayers(report.public_layers || []);
   renderComparison(report.comparison || {});
   renderPaidPreview(report.paid_preview || {});
+}
+
+function renderFreeInsight(insight) {
+  const summary = insight.summary?.length ? insight.summary : ["Google Maps上の公開情報をもとに、初来店客・観光客・AI検索からの見え方を整理します。"];
+  fields.freeSummary.replaceChildren(...summary.map((text) => {
+    const item = document.createElement("p");
+    item.textContent = text;
+    return item;
+  }));
+  fields.todayFix.textContent = insight.today_fix || "写真、営業時間、Web導線を確認する";
+  fields.customerView.textContent = insight.customer_view || "初めてのお客様が来店前に見る不安を整理します。";
+  fields.touristView.textContent = insight.tourist_view || "観光客や土地勘のない人に必要な情報を見ます。";
+  fields.aiSearchView.textContent = insight.ai_search_view || "AI検索に説明されやすい公開情報かを見ます。";
 }
 
 function renderInsight(report) {

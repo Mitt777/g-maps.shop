@@ -416,8 +416,55 @@ input:focus {
 .insight-card,
 .detail-card,
 .comparison-card,
-.paid-card {
+.paid-card,
+.free-summary-card,
+.view-card {
   padding: 20px;
+}
+
+.free-summary-card,
+.view-card {
+  grid-column: 1 / -1;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.free-summary-card {
+  display: grid;
+  gap: 18px;
+}
+
+.free-summary-lines {
+  display: grid;
+  gap: 8px;
+}
+
+.free-summary-lines p {
+  margin: 0;
+  color: #37443b;
+  font-size: 15px;
+}
+
+.today-fix {
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.today-fix span,
+.view-grid span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.today-fix strong {
+  font-size: 18px;
 }
 
 .main-score {
@@ -482,6 +529,25 @@ dd {
   gap: 10px;
   margin: 0;
   padding-left: 18px;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.view-grid div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfb;
+  padding: 14px;
+}
+
+.view-grid p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .insight-card {
@@ -638,6 +704,7 @@ dd {
   .place-facts,
   .comparison-facts,
   .layer-grid,
+  .view-grid,
   .field-grid,
   .service-links,
   .lookup-row {

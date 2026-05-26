@@ -69,6 +69,7 @@ function scorePresence(place, competitors = []) {
     checked_items: checks.map(({ key, label, ok }) => ({ key, label, ok })),
     strengths: strong.slice(0, 5).map((label) => `${label}は公開情報として確認できます`),
     missing_items: missing,
+    free_insight: buildFreeInsight(place, mapsPresenceScore, touristReady, aiReadability, saveability),
     quick_fixes: buildQuickFixes(place, missing),
     public_layers: buildPublicLayers(place),
     comparison: buildComparison(place, competitors),
@@ -94,6 +95,77 @@ function buildQuickFixes(place, missing) {
   if (!place.editorial_summary && !place.generative_summary && !place.review_summary) fixes.push("AI検索が説明しやすい短い店舗紹介文を整える");
   if (fixes.length === 0 && missing.length === 0) fixes.push("季節写真、人気メニュー、予約前の不安を減らす情報を追加する");
   return fixes.slice(0, 5);
+}
+
+function buildFreeInsight(place, mapsScore, touristReady, aiReadability, saveability) {
+  const reviews = Number(place.review_count || place.user_rating_count || 0);
+  const photos = Number(place.photos_count || 0);
+  const hasWebsite = Boolean(place.website_url || place.website_uri);
+  const hasHours = (place.weekday_descriptions || []).length > 0;
+  const hasParking = hasAnyTrue(place.parking_options);
+  const hasPayment = hasAnyTrue(place.payment_options);
+  const hasSummary = Boolean(place.editorial_summary || place.generative_summary || place.review_summary);
+
+  const state = mapsScore >= 82 ? "Google Maps上で見つかる土台はかなり強い状態です。" : mapsScore >= 62 ? "Google Maps上で見つかる基本情報はそろい始めています。" : "Google Maps上で来店前に判断する材料がまだ薄い状態です。";
+  const friction = buildFrictionLine({ hasWebsite, hasHours, hasParking, hasPayment, photos });
+  const aiLine = hasSummary
+    ? "AI検索にも説明材料はありますが、誰に・どんな時に向く店かをもう少し固定すると強くなります。"
+    : "AI検索には、名物・利用シーン・初めての人向け説明がまだ伝わりにくい可能性があります。";
+
+  return {
+    summary: [state, friction, aiLine],
+    today_fix: chooseTodayFix({ hasWebsite, hasHours, hasParking, hasPayment, photos, reviews, hasSummary }),
+    customer_view: buildCustomerView({ hasWebsite, hasHours, hasParking, photos, reviews }),
+    tourist_view: buildTouristView({ hasWebsite, hasHours, hasParking, hasPayment, photos }),
+    ai_search_view: buildAiSearchView({ hasSummary, hasWebsite, reviews, aiReadability }),
+    score_note: `Maps ${mapsScore} / Tourist ${touristReady} / AI ${aiReadability} / Save ${saveability}`
+  };
+}
+
+function buildFrictionLine({ hasWebsite, hasHours, hasParking, hasPayment, photos }) {
+  if (!hasHours) return "特に営業時間が見えにくく、行く前の不安につながります。";
+  if (!hasWebsite) return "公式サイトや予約導線が弱く、比較中のお客様が次に進みにくい状態です。";
+  if (photos < 5) return "写真が少なく、入口・席・商品・価格を来店前に想像しにくい状態です。";
+  if (!hasParking) return "到着前に迷いやすい駐車場・入口・アクセス情報を補う余地があります。";
+  if (!hasPayment) return "決済方法が見えにくいと、観光客や初来店客の小さな不安になります。";
+  return "基本情報は整っています。次は写真や説明文で、選ばれる理由を強くできます。";
+}
+
+function chooseTodayFix({ hasWebsite, hasHours, hasParking, hasPayment, photos, reviews, hasSummary }) {
+  if (!hasHours) return "営業時間と祝日の扱いを、まず最新状態にする";
+  if (!hasWebsite) return "Google Mapsから公式サイト・予約・メニューへ進む導線を足す";
+  if (photos < 5) return "入口、外観、代表商品、席が分かる写真を3枚追加する";
+  if (!hasParking) return "駐車場、最寄駅、入口の案内を写真か説明で補う";
+  if (!hasPayment) return "使える決済方法を公開情報で分かるようにする";
+  if (reviews < 10) return "来店後に口コミを書きやすい自然な声かけを用意する";
+  if (!hasSummary) return "AIが説明しやすい短い店舗紹介文を1つ用意する";
+  return "季節写真と人気メニューを更新し、保存したくなる理由を増やす";
+}
+
+function buildCustomerView({ hasWebsite, hasHours, hasParking, photos, reviews }) {
+  if (!hasHours) return "初めてのお客様は、開いているかどうかで迷いやすい状態です。";
+  if (photos < 5) return "初めてのお客様は、店内や入口を想像しにくいかもしれません。";
+  if (!hasWebsite) return "比較中のお客様は、メニューや予約へ進む導線で止まりやすい状態です。";
+  if (!hasParking) return "車や徒歩で向かう人には、到着直前の安心材料がもう少し欲しい状態です。";
+  if (reviews >= 50) return "口コミの土台があり、初来店前の信頼は作りやすい状態です。";
+  return "基本情報は見えています。写真と口コミの積み上げで安心感が増します。";
+}
+
+function buildTouristView({ hasWebsite, hasHours, hasParking, hasPayment, photos }) {
+  if (!hasHours) return "観光客には、営業中かどうかが分かりにくい可能性があります。";
+  if (!hasPayment) return "観光客には、カードやタッチ決済が使えるかが不安になりやすいです。";
+  if (!hasParking) return "土地勘のない人には、駅・入口・駐車場の情報があると安心です。";
+  if (photos < 8) return "観光客には、外観・名物・価格感の写真があるほど保存されやすくなります。";
+  if (!hasWebsite) return "多言語で確認できる公式導線があると、旅程に入れやすくなります。";
+  return "観光客が来店前に確認したい材料は比較的そろっています。";
+}
+
+function buildAiSearchView({ hasSummary, hasWebsite, reviews, aiReadability }) {
+  if (!hasSummary) return "AIには、何が名物で誰に向く店かがまだ説明されにくい状態です。";
+  if (!hasWebsite) return "AIは説明材料を拾えても、公式情報へ案内しにくい状態です。";
+  if (reviews < 10) return "AIが信頼材料として扱える口コミの厚みは、まだ育てる余地があります。";
+  if (aiReadability >= 80) return "AIが店舗を説明するための材料はかなりそろっています。";
+  return "AIに説明される土台はあります。利用シーンの言語化でさらに強くなります。";
 }
 
 function buildPublicLayers(place) {
