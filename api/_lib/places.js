@@ -1,5 +1,5 @@
 const { scorePresence } = require("./scoring");
-const { generateMapsInsight } = require("./gemini");
+const { generateMapsInsight, generateMapsPublicDiagnosis } = require("./gemini");
 
 const SEARCH_ENDPOINT = "https://places.googleapis.com/v1/places:searchText";
 const DETAILS_ENDPOINT = "https://places.googleapis.com/v1/places";
@@ -113,6 +113,52 @@ function normalizePlace(place) {
   };
 }
 
+function applyMapsDiagnosis(report, diagnosis) {
+  if (!report || !diagnosis) return report;
+
+  const scores = diagnosis.scores || {};
+  report.maps_presence_score = scores.maps_presence_score;
+  report.tourist_ready = scores.tourist_ready;
+  report.ai_readability = scores.ai_readability;
+  report.saveability = scores.saveability;
+  report.photo_route_score = scores.photo_route_score;
+  report.overall_score = diagnosis.total_score;
+  report.maps_public_diagnosis = diagnosis;
+  report.metric_explanations = diagnosis.metric_explanations || {};
+
+  if (diagnosis.summary?.length) {
+    report.free_insight.summary = diagnosis.summary;
+  }
+  if (diagnosis.today_fix) {
+    report.free_insight.today_fix = diagnosis.today_fix;
+  }
+  if (diagnosis.customer_view) {
+    report.free_insight.customer_view = diagnosis.customer_view;
+  }
+  if (diagnosis.tourist_view) {
+    report.free_insight.tourist_view = diagnosis.tourist_view;
+  }
+  if (diagnosis.ai_search_view) {
+    report.free_insight.ai_search_view = diagnosis.ai_search_view;
+  }
+  if (diagnosis.quick_fixes?.length) {
+    report.quick_fixes = diagnosis.quick_fixes;
+  }
+  if (diagnosis.strengths?.length) {
+    report.strengths = diagnosis.strengths;
+  }
+  if (diagnosis.weaknesses?.length) {
+    report.weaknesses = diagnosis.weaknesses;
+    report.missing_items = diagnosis.weaknesses;
+  }
+  if (diagnosis.paid_boundary) {
+    report.paid_preview.handoff = diagnosis.paid_boundary;
+  }
+
+  report.free_insight.score_note = `Maps ${report.maps_presence_score} / Tourist ${report.tourist_ready} / AI ${report.ai_readability} / Save ${report.saveability}`;
+  return report;
+}
+
 async function fetchPlaceById(placeId, apiKey) {
   const response = await fetch(`${DETAILS_ENDPOINT}/${placeId}`, {
     headers: {
@@ -187,6 +233,8 @@ async function analyzePublicPresence(input) {
   const competitors = candidates.filter((candidate) => candidate.place_id !== place?.place_id).slice(0, 4);
   const report = place ? scorePresence(place, competitors) : null;
   if (place && report) {
+    const diagnosis = await generateMapsPublicDiagnosis(place, competitors, report).catch(() => null);
+    applyMapsDiagnosis(report, diagnosis);
     report.ai_insight = await generateMapsInsight(place, report).catch(() => null);
   }
 

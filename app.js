@@ -24,8 +24,11 @@ const fields = {
   radarPoints: document.querySelector("#radar-points"),
   priorityFix: document.querySelector("#priority-fix"),
   tourist: document.querySelector("#tourist-score"),
+  touristNote: document.querySelector("#tourist-score-note"),
   ai: document.querySelector("#ai-score"),
+  aiNote: document.querySelector("#ai-score-note"),
   save: document.querySelector("#save-score"),
+  saveNote: document.querySelector("#save-score-note"),
   summary: document.querySelector("#score-summary"),
   placeName: document.querySelector("#place-name"),
   placeAddress: document.querySelector("#place-address"),
@@ -181,12 +184,19 @@ function renderCandidates(candidates) {
 function renderResult(data) {
   const place = data.place || {};
   const report = data.report || {};
-  const photoRouteScore = photoRouteValue(place, report);
+  const diagnosis = report.maps_public_diagnosis || {};
+  const explanations = report.metric_explanations || diagnosis.metric_explanations || {};
+  const overallScore = typeof report.overall_score === "number"
+    ? report.overall_score
+    : report.maps_presence_score;
+  const photoRouteScore = typeof report.photo_route_score === "number"
+    ? report.photo_route_score
+    : photoRouteValue(place, report);
 
   fields.score.textContent = formatScore(report.maps_presence_score);
   fields.reportPlaceName.textContent = place.name || "Unknown place";
-  fields.ringScore.textContent = formatScore(report.maps_presence_score);
-  fields.scoreRing.style.setProperty("--score", Number(report.maps_presence_score || 0));
+  fields.ringScore.textContent = formatScore(overallScore);
+  fields.scoreRing.style.setProperty("--score", Number(overallScore || 0));
   fields.metricMaps.textContent = formatScore(report.maps_presence_score);
   fields.metricTourist.textContent = formatScore(report.tourist_ready);
   fields.metricAi.textContent = formatScore(report.ai_readability);
@@ -204,7 +214,10 @@ function renderResult(data) {
   fields.tourist.textContent = formatScore(report.tourist_ready);
   fields.ai.textContent = formatScore(report.ai_readability);
   fields.save.textContent = formatScore(report.saveability);
-  fields.summary.textContent = summaryFor(report.maps_presence_score);
+  fields.summary.textContent = explanations.maps_presence_score || summaryFor(report.maps_presence_score);
+  fields.touristNote.textContent = explanations.tourist_ready || "営業時間、写真、決済、アクセスの見え方。";
+  fields.aiNote.textContent = explanations.ai_readability || "AI検索が説明しやすい店舗情報の整い方。";
+  fields.saveNote.textContent = explanations.saveability || "行きたい・保存したいと思われる情報量。";
 
   fields.placeName.textContent = place.name || "Unknown place";
   fields.placeAddress.textContent = [place.address, place.category].filter(Boolean).join(" / ") || "公開住所・カテゴリ未取得";
