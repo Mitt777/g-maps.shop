@@ -58,6 +58,28 @@ function scorePresence(place, competitors = []) {
     { ok: hasAnyTrue(place.service_options), weight: 6 }
   ]);
 
+  const inboundReady = weightedScore([
+    { ok: Boolean(place.name), weight: 10 },
+    { ok: Boolean(place.address), weight: 10 },
+    { ok: (place.weekday_descriptions || []).length > 0, weight: 14 },
+    { ok: Boolean(place.international_phone || place.phone), weight: 9 },
+    { ok: Boolean(place.website_url || place.website_uri), weight: 15 },
+    { ok: hasAnyTrue(place.payment_options), weight: 12 },
+    { ok: hasAnyTrue(place.parking_options), weight: 9 },
+    { ok: Number(place.photos_count || 0) >= 8, weight: 12 },
+    { ok: Boolean(place.editorial_summary || place.generative_summary || place.review_summary), weight: 9 }
+  ]);
+
+  const entryAnxiety = weightedScore([
+    { ok: Number(place.photos_count || 0) >= 5, weight: 22 },
+    { ok: (place.weekday_descriptions || []).length > 0, weight: 18 },
+    { ok: Boolean(place.phone), weight: 10 },
+    { ok: Boolean(place.website_url || place.website_uri), weight: 14 },
+    { ok: hasAnyTrue(place.parking_options), weight: 13 },
+    { ok: hasAnyTrue(place.service_options), weight: 8 },
+    { ok: Number(place.review_count || place.user_rating_count || 0) >= 10, weight: 15 }
+  ]);
+
   const missing = checks.filter((check) => !check.ok).map((check) => check.label);
   const strong = checks.filter((check) => check.ok).map((check) => check.label);
 
@@ -66,12 +88,15 @@ function scorePresence(place, competitors = []) {
     tourist_ready: touristReady,
     ai_readability: aiReadability,
     saveability,
+    inbound_ready: inboundReady,
+    entry_anxiety_relief: entryAnxiety,
     checked_items: checks.map(({ key, label, ok }) => ({ key, label, ok })),
     strengths: strong.slice(0, 5).map((label) => `${label}は公開情報として確認できます`),
     missing_items: missing,
     free_insight: buildFreeInsight(place, mapsPresenceScore, touristReady, aiReadability, saveability),
     quick_fixes: buildQuickFixes(place, missing),
     public_layers: buildPublicLayers(place),
+    deep_checks: buildDeepChecks(place, { inboundReady, entryAnxiety }),
     comparison: buildComparison(place, competitors),
     maps_focus: buildMapsFocus(place),
     paid_preview: buildPaidPreview(place, missing)
@@ -199,6 +224,77 @@ function buildPublicLayers(place) {
       title: "AIに説明されやすい状態",
       ok: Boolean(place.editorial_summary || place.generative_summary || place.review_summary),
       note: place.editorial_summary || place.review_summary ? "説明や口コミ要約の材料があります。" : "AIが引用しやすい短い説明文を足したい状態です。"
+    }
+  ];
+}
+
+function buildDeepChecks(place, scores) {
+  const hasWebsite = Boolean(place.website_url || place.website_uri);
+  const hasHours = (place.weekday_descriptions || []).length > 0;
+  const photos = Number(place.photos_count || 0);
+  const reviews = Number(place.review_count || place.user_rating_count || 0);
+  const hasParking = hasAnyTrue(place.parking_options);
+  const hasPayment = hasAnyTrue(place.payment_options);
+  const hasSummary = Boolean(place.editorial_summary || place.generative_summary || place.review_summary);
+  const hasService = hasAnyTrue(place.service_options);
+
+  return [
+    {
+      label: "Inbound",
+      title: "インバウンド対応の見え方",
+      score: scores.inboundReady,
+      note: hasWebsite && hasPayment
+        ? "外国人や土地勘のない人が確認したい導線は見え始めています。"
+        : "Web導線、決済、営業時間、入口写真を足すと旅程に入れやすくなります。"
+    },
+    {
+      label: "Anxiety",
+      title: "初来店の不安軽減",
+      score: scores.entryAnxiety,
+      note: photos >= 5 && hasHours
+        ? "入口・店内・営業中感を来店前に想像しやすい状態です。"
+        : "外観、入口、席、価格、駐車場が分かる情報を足すと安心されます。"
+    },
+    {
+      label: "Photo",
+      title: "写真の診断材料",
+      score: weightedScore([
+        { ok: photos >= 3, weight: 30 },
+        { ok: photos >= 8, weight: 30 },
+        { ok: photos >= 15, weight: 20 },
+        { ok: reviews >= 10, weight: 20 }
+      ]),
+      note: photos >= 8
+        ? "写真量はあります。次は入口・席・価格感・名物の質を整える段階です。"
+        : "無料診断では枚数だけを確認します。質の診断は次の深掘り候補です。"
+    },
+    {
+      label: "Link",
+      title: "次に進める導線",
+      score: weightedScore([
+        { ok: hasWebsite, weight: 35 },
+        { ok: Boolean(place.phone), weight: 20 },
+        { ok: hasHours, weight: 20 },
+        { ok: hasService, weight: 10 },
+        { ok: hasSummary, weight: 15 }
+      ]),
+      note: hasWebsite
+        ? "公式サイトや予約・メニューへ進む導線があります。"
+        : "比較中のお客様が次に進むための公式導線を足したい状態です。"
+    },
+    {
+      label: "AI",
+      title: "AI検索の説明材料",
+      score: weightedScore([
+        { ok: Boolean(place.category || place.primary_type_label || place.primary_type), weight: 20 },
+        { ok: hasSummary, weight: 30 },
+        { ok: hasWebsite, weight: 20 },
+        { ok: reviews >= 10, weight: 15 },
+        { ok: photos >= 8, weight: 15 }
+      ]),
+      note: hasSummary
+        ? "AIが短く説明するための材料があります。利用シーンの言語化でさらに強くできます。"
+        : "名物、利用シーン、初めての人向けの短い説明文が不足しやすい状態です。"
     }
   ];
 }

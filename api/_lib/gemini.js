@@ -16,7 +16,8 @@ async function generateMapsInsight(place, report) {
   const prompt = [
     "あなたはGoogle Maps Public Presence Analyzerです。",
     "MEO順位や広告営業ではなく、Google Maps上の公開情報から、普通の店主が今日直すことを短く説明してください。",
-    "出力は日本語で、80文字以内のsummaryと、短いactionを3つ。JSONだけを返してください。",
+    "okyakusa-ma.comの世界観診断はしません。ここでは公開情報、観光客、AI検索、保存されやすさ、初来店不安だけを冷静に見ます。",
+    "出力は日本語で、100文字以内のsummary、短いactionsを3つ、paid_boundaryを1文。JSONだけを返してください。",
     JSON.stringify({
       place: {
         name: place.name,
@@ -34,10 +35,13 @@ async function generateMapsInsight(place, report) {
         maps_presence_score: report.maps_presence_score,
         tourist_ready: report.tourist_ready,
         ai_readability: report.ai_readability,
-        saveability: report.saveability
+        saveability: report.saveability,
+        inbound_ready: report.inbound_ready,
+        entry_anxiety_relief: report.entry_anxiety_relief
       },
       missing_items: report.missing_items,
-      quick_fixes: report.quick_fixes
+      quick_fixes: report.quick_fixes,
+      deep_checks: report.deep_checks
     })
   ].join("\n");
 
@@ -68,7 +72,8 @@ async function generateMapsInsight(place, report) {
     const parsed = JSON.parse(text);
     return {
       summary: compact(parsed.summary).slice(0, 120),
-      actions: Array.isArray(parsed.actions) ? parsed.actions.map(compact).filter(Boolean).slice(0, 3) : []
+      actions: Array.isArray(parsed.actions) ? parsed.actions.map(compact).filter(Boolean).slice(0, 3) : [],
+      paid_boundary: compact(parsed.paid_boundary).slice(0, 120)
     };
   } catch (error) {
     return null;

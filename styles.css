@@ -571,6 +571,10 @@ dd {
   gap: 10px;
 }
 
+.deep-check-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .layer-item {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -602,6 +606,15 @@ dd {
   margin-bottom: 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+.layer-score {
+  display: block;
+  margin: -2px 0 6px;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: 0;
 }
 
 .comparison-card {

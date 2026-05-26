@@ -30,6 +30,7 @@ const fields = {
   aiInsightSummary: document.querySelector("#ai-insight-summary"),
   aiInsightActions: document.querySelector("#ai-insight-actions"),
   publicLayers: document.querySelector("#public-layers"),
+  deepChecks: document.querySelector("#deep-checks"),
   comparisonReviews: document.querySelector("#comparison-reviews"),
   comparisonRating: document.querySelector("#comparison-rating"),
   comparisonPhotos: document.querySelector("#comparison-photos"),
@@ -191,6 +192,7 @@ function renderResult(data) {
   renderFreeInsight(report.free_insight || {});
   renderInsight(report);
   renderPublicLayers(report.public_layers || []);
+  renderDeepChecks(report.deep_checks || []);
   renderComparison(report.comparison || {});
   renderPaidPreview(report.paid_preview || {});
 }
@@ -217,6 +219,11 @@ function renderInsight(report) {
     item.textContent = text;
     return item;
   }));
+  if (insight?.paid_boundary) {
+    const boundary = document.createElement("li");
+    boundary.textContent = insight.paid_boundary;
+    fields.aiInsightActions.append(boundary);
+  }
 }
 
 function renderPublicLayers(layers) {
@@ -227,6 +234,20 @@ function renderPublicLayers(layers) {
       <span>${escapeHtml(layer.label || "")}</span>
       <strong>${escapeHtml(layer.title || "")}</strong>
       <p>${escapeHtml(layer.note || "")}</p>
+    `;
+    return item;
+  }));
+}
+
+function renderDeepChecks(checks) {
+  fields.deepChecks.replaceChildren(...checks.map((check) => {
+    const item = document.createElement("div");
+    item.className = "layer-item";
+    item.innerHTML = `
+      <span>${escapeHtml(check.label || "")}</span>
+      <strong>${escapeHtml(check.title || "")}</strong>
+      <b class="layer-score">${escapeHtml(formatScore(check.score))}</b>
+      <p>${escapeHtml(check.note || "")}</p>
     `;
     return item;
   }));
