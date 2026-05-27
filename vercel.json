@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "nasu/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "styles.css",
       "use": "@vercel/static"
     },
@@ -34,6 +38,10 @@
     {
       "src": "/app.js",
       "dest": "/app.js"
+    },
+    {
+      "src": "/nasu/?",
+      "dest": "/nasu/index.html"
     },
     {
       "src": "/(.*)",

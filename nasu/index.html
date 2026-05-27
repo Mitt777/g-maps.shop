@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>那須のお店 Google Maps見え方 無料診断｜g-maps.shop</title>
+  <meta name="description" content="那須・黒磯エリアの飲食店・カフェ・観光施設のGoogle Maps見え方を無料で診断します。Maps整備度・観光客対応・AI検索対応・口コミ信頼度を5項目でスコア化。今すぐ直すべき1点を提案します。">
+  <meta name="keywords" content="那須 Google Maps 診断,黒磯 MEO,那須 店舗診断,那須 Google Maps 見え方,那須 カフェ MEO,那須塩原 店舗,栃木 Google Maps 診断,那須 集客">
+  <meta property="og:title" content="那須のお店 Google Maps見え方 無料診断｜g-maps.shop">
+  <meta property="og:description" content="那須・黒磯エリアの飲食店・カフェのGoogle Maps見え方を無料診断。5項目スコアと今すぐ直すべき1点を提案します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://g-maps.shop/nasu">
+  <meta property="og:site_name" content="g-maps.shop">
+  <link rel="canonical" href="https://g-maps.shop/nasu">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink:     #1C1917;
+      --sage:    #4A7C6F;
+      --sage-lt: #A8C5BB;
+      --cream:   #F7F3EE;
+      --sand:    #E8DDD0;
+      --muted:   #78716C;
+      --white:   #FFFFFF;
+      --border:  #DDD5C8;
+      --amber:   #B8945A;
+      --coral:   #C4694F;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; font-size: 15px; }
+
+    .site-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .site-logo { font-family: 'EB Garamond', serif; font-size: 20px; color: var(--sage); text-decoration: none; letter-spacing: 0.05em; }
+    .site-logo span { color: var(--muted); font-size: 13px; font-family: 'Noto Sans JP', sans-serif; margin-left: 8px; font-weight: 300; }
+    .header-link { font-size: 12px; color: var(--sage); text-decoration: none; border: 1px solid var(--sage); padding: 6px 14px; border-radius: 6px; }
+    .header-link:hover { background: var(--sage); color: var(--white); }
+
+    .breadcrumb { padding: 12px 24px; font-size: 12px; color: var(--muted); background: var(--cream); border-bottom: 1px solid var(--border); }
+    .breadcrumb a { color: var(--sage); text-decoration: none; }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* ── HERO ── */
+    .hero { background: var(--ink); color: var(--white); padding: 56px 24px 52px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 45%; height: 100%; background: linear-gradient(135deg, transparent 35%, rgba(74,124,111,0.15) 100%); pointer-events: none; }
+    .hero-inner { max-width: 680px; margin: 0 auto; position: relative; }
+    .hero-tag { display: inline-block; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage-lt); border: 1px solid rgba(168,197,187,0.4); padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; font-family: 'EB Garamond', serif; }
+    .hero h1 { font-family: 'Noto Serif JP', serif; font-size: clamp(22px, 4.5vw, 34px); font-weight: 400; line-height: 1.45; margin-bottom: 18px; letter-spacing: 0.02em; }
+    .hero h1 em { font-style: normal; color: var(--sage-lt); }
+    .hero-desc { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.85; margin-bottom: 32px; max-width: 500px; }
+
+    /* ── FORM ── */
+    .hero-form { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 24px; max-width: 560px; }
+    .hero-form-title { font-size: 13px; color: var(--sage-lt); margin-bottom: 14px; letter-spacing: 0.04em; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 12px; }
+    .input-group input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      font-size: 14px;
+      font-family: 'Noto Sans JP', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-group input::placeholder { color: rgba(255,255,255,0.4); }
+    .input-group input:focus { border-color: var(--sage-lt); }
+    .btn-diagnose {
+      display: block;
+      width: 100%;
+      background: var(--sage);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: opacity 0.2s;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-diagnose:hover { opacity: 0.88; }
+    .form-note { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 10px; text-align: center; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── SCORES PREVIEW ── */
+    .scores-section { padding: 44px 0 36px; }
+    .section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-family: 'EB Garamond', serif; margin-bottom: 12px; }
+    .section-title { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+    .section-desc { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
+
+    .scores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .score-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 18px 16px; }
+    .score-card-icon { font-size: 18px; margin-bottom: 8px; }
+    .score-card-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .score-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .score-bar { height: 3px; background: var(--border); border-radius: 100px; margin-top: 10px; overflow: hidden; }
+    .score-bar-fill { height: 100%; border-radius: 100px; }
+
+    .divider { height: 1px; background: var(--border); margin: 8px 0 36px; }
+
+    /* ── EXAMPLE ── */
+    .example-section { padding: 0 0 36px; }
+    .example-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .example-header { background: var(--ink); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .example-store { font-family: 'Noto Serif JP', serif; font-size: 16px; color: var(--white); }
+    .example-badge { font-size: 11px; color: var(--sage-lt); border: 1px solid rgba(168,197,187,0.4); padding: 3px 10px; border-radius: 100px; }
+    .example-body { padding: 20px; }
+    .example-scores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .example-score-item { }
+    .example-score-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .example-score-row { display: flex; align-items: center; gap: 8px; }
+    .example-score-num { font-family: 'EB Garamond', serif; font-size: 22px; color: var(--ink); line-height: 1; }
+    .example-score-bar { flex: 1; height: 4px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .example-score-fill { height: 100%; border-radius: 100px; background: var(--sage); }
+    .example-fix { background: #FFF5F5; border: 1px solid #FFCDD2; border-radius: 6px; padding: 12px 14px; margin-top: 4px; }
+    .example-fix-label { font-size: 11px; font-weight: 500; color: var(--coral); margin-bottom: 4px; letter-spacing: 0.05em; }
+    .example-fix-text { font-size: 13px; color: var(--ink); line-height: 1.6; }
+
+    /* ── WHY NASU ── */
+    .why-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 36px; }
+    .why-section h2 { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 16px; }
+    .why-list { display: flex; flex-direction: column; gap: 14px; }
+    .why-item { display: flex; gap: 14px; align-items: flex-start; }
+    .why-num { flex-shrink: 0; font-family: 'EB Garamond', serif; font-size: 20px; color: var(--sage); line-height: 1.2; width: 24px; }
+    .why-text { font-size: 13px; color: var(--ink); line-height: 1.7; }
+    .why-text strong { display: block; font-weight: 500; margin-bottom: 2px; }
+
+    /* ── FAQ ── */
+    .faq-section { margin-bottom: 36px; }
+    .faq-section h2 { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 16px; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
+    .faq-q { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; display: flex; gap: 10px; }
+    .faq-q::before { content: 'Q'; font-family: 'EB Garamond', serif; font-size: 16px; color: var(--sage); flex-shrink: 0; line-height: 1.4; }
+    .faq-a { font-size: 13px; color: var(--muted); line-height: 1.8; padding-left: 20px; }
+
+    /* ── CTA BOTTOM ── */
+    .cta-section { background: var(--ink); color: var(--white); border-radius: 8px; padding: 36px 24px; margin-bottom: 48px; text-align: center; }
+    .cta-section h2 { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+    .cta-section p { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 24px; line-height: 1.7; }
+    .cta-input-wrap { max-width: 480px; margin: 0 auto 12px; display: flex; gap: 10px; }
+    .cta-input { flex: 1; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: rgba(255,255,255,0.08); color: var(--white); font-size: 14px; font-family: 'Noto Sans JP', sans-serif; outline: none; }
+    .cta-input::placeholder { color: rgba(255,255,255,0.4); }
+    .cta-btn { background: var(--sage); color: var(--white); font-size: 14px; padding: 12px 20px; border-radius: 6px; border: none; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; }
+    .cta-note { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+    /* ── RELATED ── */
+    .related-section { margin-bottom: 48px; }
+    .related-section h2 { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 14px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .related-card { display: block; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; text-decoration: none; transition: border-color 0.2s; }
+    .related-card:hover { border-color: var(--sage); }
+    .related-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); font-family: 'EB Garamond', serif; margin-bottom: 4px; }
+    .related-title { font-size: 13px; color: var(--ink); font-weight: 500; }
+
+    footer { background: var(--white); border-top: 1px solid var(--border); padding: 28px 24px; }
+    .footer-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { font-family: 'EB Garamond', serif; font-size: 18px; color: var(--sage); text-decoration: none; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--sage); }
+    .footer-copy { font-size: 11px; color: var(--muted); width: 100%; margin-top: 8px; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 40px 20px 40px; }
+      .input-group { flex-direction: column; }
+      .example-scores { grid-template-columns: 1fr; }
+      .cta-input-wrap { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="https://g-maps.shop" class="site-logo">g-maps.shop<span>Google Maps Public Presence Analyzer</span></a>
+  <a href="https://g-maps.shop" class="header-link">無料診断トップ</a>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://g-maps.shop">g-maps.shop</a>
+  <span>›</span>
+  那須エリア診断
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Nasu · Free Diagnosis</div>
+    <h1>那須のお店は、<br>Google Mapsで<em>正しく見えていますか？</em></h1>
+    <p class="hero-desc">
+      那須・黒磯エリアの飲食店・カフェ・観光施設のGoogle Maps上での見え方を無料で診断します。
+      観光客・初めての人・AI検索から、あなたのお店がどう見えているかを5項目でスコア化します。
+    </p>
+    <div class="hero-form">
+      <div class="hero-form-title">お店のGoogle Maps URLまたは店名を入力してください</div>
+      <div class="input-group">
+        <input type="text" id="shopInput" placeholder="例：リビングストン 黒磯　または Google Maps URL" autocomplete="off">
+      </div>
+      <a href="https://g-maps.shop" class="btn-diagnose" id="diagnoseBtn" onclick="return goToDiagnosis()">
+        無料で診断する →
+      </a>
+      <div class="form-note">無料・登録不要・1分で完了</div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <!-- SCORES -->
+    <section class="scores-section">
+      <div class="section-label">Diagnosis Items</div>
+      <div class="section-title">診断する5つの項目</div>
+      <p class="section-desc">Google Maps上の公開情報をもとに、店舗ごとに診断します。一般的なMEOツールとは異なり、「観光客から見た見え方」「AIに説明されやすいか」まで診断します。</p>
+
+      <div class="scores-grid">
+        <div class="score-card">
+          <div class="score-card-icon">📍</div>
+          <div class="score-card-title">Maps整備度</div>
+          <div class="score-card-desc">店舗名・住所・カテゴリ・営業時間・電話・写真・Webリンクの整備状況を確認します。</div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:85%; background:#4A7C6F;"></div></div>
+        </div>
+        <div class="score-card">
+          <div class="score-card-icon">✈️</div>
+          <div class="score-card-title">Tourist Ready</div>
+          <div class="score-card-desc">土地勘のない観光客・インバウンド客が安心して来店できる情報が揃っているか。</div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:70%; background:#B8945A;"></div></div>
+        </div>
+        <div class="score-card">
+          <div class="score-card-icon">🤖</div>
+          <div class="score-card-title">AI Readability</div>
+          <div class="score-card-desc">ChatGPTやGeminiなどのAI検索が「どんな店か」「誰に向くか」を説明しやすいか。</div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:60%; background:#6B5EA8;"></div></div>
+        </div>
+        <div class="score-card">
+          <div class="score-card-icon">🔖</div>
+          <div class="score-card-title">Saveability</div>
+          <div class="score-card-desc">InstagramやGoogle Mapsで「保存・比較」されやすい情報・写真が整っているか。</div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:75%; background:#2E7D89;"></div></div>
+        </div>
+        <div class="score-card">
+          <div class="score-card-icon">📸</div>
+          <div class="score-card-title">Photos / Route</div>
+          <div class="score-card-desc">入口・外観・店内・駐車場・アクセスが写真や情報で伝わるか。来店前不安を減らせるか。</div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:65%; background:#C4694F;"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- EXAMPLE -->
+    <section class="example-section">
+      <div class="section-label">Sample Report</div>
+      <div class="section-title">診断レポートのサンプル</div>
+      <p class="section-desc" style="margin-bottom:20px;">那須エリアの実店舗で診断した場合のイメージです。</p>
+
+      <div class="example-card">
+        <div class="example-header">
+          <div class="example-store">那須・黒磯エリアのカフェ（サンプル）</div>
+          <div class="example-badge">β診断</div>
+        </div>
+        <div class="example-body">
+          <div class="example-scores">
+            <div class="example-score-item">
+              <div class="example-score-label">Maps整備度</div>
+              <div class="example-score-row">
+                <div class="example-score-num">81</div>
+                <div class="example-score-bar"><div class="example-score-fill" style="width:81%;"></div></div>
+              </div>
+            </div>
+            <div class="example-score-item">
+              <div class="example-score-label">Tourist Ready</div>
+              <div class="example-score-row">
+                <div class="example-score-num">68</div>
+                <div class="example-score-bar"><div class="example-score-fill" style="width:68%;"></div></div>
+              </div>
+            </div>
+            <div class="example-score-item">
+              <div class="example-score-label">AI Readability</div>
+              <div class="example-score-row">
+                <div class="example-score-num">60</div>
+                <div class="example-score-bar"><div class="example-score-fill" style="width:60%;"></div></div>
+              </div>
+            </div>
+            <div class="example-score-item">
+              <div class="example-score-label">Saveability</div>
+              <div class="example-score-row">
+                <div class="example-score-num">75</div>
+                <div class="example-score-bar"><div class="example-score-fill" style="width:75%;"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="example-fix">
+            <div class="example-fix-label">今すぐ直すべき1点</div>
+            <div class="example-fix-text">Googleビジネスプロフィールの店舗説明文に、犬連れOK・駐車場・価格帯の情報を追加する。観光客が来店前に不安に感じる情報が不足しています。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WHY NASU -->
+    <section class="why-section">
+      <h2>那須エリアのお店が診断で気づくこと</h2>
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-num">1</div>
+          <div class="why-text">
+            <strong>観光客への情報が足りていないケースが多い</strong>
+            那須は関東圏からの観光客が多いエリアです。地元の人には当たり前の情報（駐車場の場所・入口のわかりやすさ・犬連れOK可否）が、初めて来る人には伝わっていないことがよくあります。
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">2</div>
+          <div class="why-text">
+            <strong>AI検索に拾われにくい店舗が増えている</strong>
+            「那須 犬連れ カフェ」「黒磯 静かなカフェ」のようなAI検索が増えています。店舗の特徴・利用シーン・向いている人が明文化されていないと、AI検索の推薦候補から外れるリスクがあります。
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">3</div>
+          <div class="why-text">
+            <strong>写真が整っているかどうかで来店率が変わる</strong>
+            那須は「行ってみたい」と思われても、駐車場・入口・席の雰囲気がわからないと「また今度」になりやすいエリアです。来店前不安を減らす写真と情報が集客に直結します。
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">4</div>
+          <div class="why-text">
+            <strong>インバウンド対応の遅れが機会損失を生んでいる</strong>
+            那須への外国人観光客は増加しています。英語の店舗説明・多言語対応の有無が、今後の集客差に繋がります。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <h2>よくある質問</h2>
+      <div class="faq-item">
+        <div class="faq-q">診断は本当に無料ですか？</div>
+        <div class="faq-a">はい、基本の5項目診断は完全無料です。登録や会員登録も不要です。Google MapsのURLまたは店名を入力するだけで診断結果が表示されます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">どんな情報をもとに診断しますか？</div>
+        <div class="faq-a">Google Maps上に公開されている情報（店舗情報・写真・口コミ・営業時間など）をもとに診断します。非公開の情報や内部データにはアクセスしません。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">MEOツールとどう違いますか？</div>
+        <div class="faq-a">一般的なMEOツールは「検索順位を上げる」ことを目的としています。このサービスは「お店がどう見えているか」を観光客・初来店者・AI検索の視点で診断することに特化しています。順位の競争ではなく、来店前不安の解消と情報整備を重視しています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">診断後に何をすればいいですか？</div>
+        <div class="faq-a">診断結果の「今すぐ直すべき1点」から始めることをおすすめします。多くの場合、Googleビジネスプロフィールの説明文・写真・営業時間の更新だけで大きく改善できます。さらに深く改善したい場合は、okyakusa-ma.comの詳細診断もご利用いただけます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">那須以外のエリアのお店も診断できますか？</div>
+        <div class="faq-a">はい。このページは那須エリアのお店向けの説明ページですが、診断自体は全国のお店に対応しています。g-maps.shopのトップページから診断を開始してください。</div>
+      </div>
+    </section>
+
+    <!-- CTA BOTTOM -->
+    <section class="cta-section">
+      <h2>あなたのお店を、今すぐ診断する</h2>
+      <p>無料・登録不要・1分で完了。<br>Google Maps URLまたは店名を入力するだけです。</p>
+      <div class="cta-input-wrap">
+        <input type="text" class="cta-input" id="ctaInput" placeholder="店名 または Google Maps URL">
+        <button class="cta-btn" onclick="return goToDiagnosisCta()">診断する</button>
+      </div>
+      <div class="cta-note">那須・黒磯エリアのお店は「店名 那須」「店名 黒磯」で検索するとより正確に診断できます</div>
+    </section>
+
+    <!-- RELATED -->
+    <section class="related-section">
+      <h2>那須エリアの関連サービス</h2>
+      <div class="related-grid">
+        <a href="https://map-s.site/nasu/" class="related-card">
+          <div class="related-label">map-s</div>
+          <div class="related-title">那須エリア MAP一覧</div>
+        </a>
+        <a href="https://map-s.site/nasu/cafe" class="related-card">
+          <div class="related-label">map-s</div>
+          <div class="related-title">那須 カフェ MAP</div>
+        </a>
+        <a href="https://map-s.site/nasu/kuroiso" class="related-card">
+          <div class="related-label">map-s</div>
+          <div class="related-title">黒磯エリア MAP</div>
+        </a>
+        <a href="https://okyakusa-ma.com" class="related-card">
+          <div class="related-label">お客様.COM</div>
+          <div class="related-title">世界観カード診断</div>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a href="https://g-maps.shop" class="footer-logo">g-maps.shop</a>
+    <div class="footer-links">
+      <a href="https://g-maps.shop">診断トップ</a>
+      <a href="https://map-s.site/nasu">那須MAP</a>
+      <a href="https://okyakusa-ma.com">お客様.COM</a>
+      <a href="https://air-s.jp">air-s</a>
+    </div>
+    <div class="footer-copy">© 2026 g-maps.shop · Google Maps Public Presence Analyzer</div>
+  </div>
+</footer>
+
+<script>
+  function goToDiagnosis() {
+    const val = document.getElementById('shopInput').value.trim();
+    if (val) {
+      const base = 'https://g-maps.shop';
+      const q = encodeURIComponent(val);
+      window.location.href = base + '/?q=' + q;
+      return false;
+    }
+    window.location.href = 'https://g-maps.shop';
+    return false;
+  }
+
+  function goToDiagnosisCta() {
+    const val = document.getElementById('ctaInput').value.trim();
+    if (val) {
+      const q = encodeURIComponent(val);
+      window.location.href = 'https://g-maps.shop/?q=' + q;
+    } else {
+      window.location.href = 'https://g-maps.shop';
+    }
+  }
+
+  document.getElementById('shopInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') goToDiagnosis();
+  });
+  document.getElementById('ctaInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') goToDiagnosisCta();
+  });
+</script>
+
+</body>
+</html>

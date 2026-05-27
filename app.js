@@ -388,3 +388,32 @@ function escapeHtml(value) {
     "'": "&#039;"
   })[char]);
 }
+
+
+function hydrateInitialQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const query = String(params.get("q") || "").trim();
+
+  if (!query) return;
+
+  const mapsUrlInput = document.querySelector("#maps-url");
+  const storeNameInput = document.querySelector("#store-name");
+  const isUrl = /^https?:\/\//i.test(query);
+
+  if (isUrl) {
+    mapsUrlInput.value = query;
+  } else {
+    storeNameInput.value = query;
+  }
+
+  setStatus("入力内容を受け取りました。診断を開始しています...", "loading");
+  window.setTimeout(() => {
+    if (typeof form.requestSubmit === "function") {
+      form.requestSubmit();
+    } else {
+      submitButton.click();
+    }
+  }, 120);
+}
+
+hydrateInitialQuery();
