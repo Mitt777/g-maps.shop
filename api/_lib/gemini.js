@@ -96,6 +96,7 @@ function normalizeExplanations(value) {
     maps_presence_score: compact(source.maps_presence_score).slice(0, 180),
     tourist_ready: compact(source.tourist_ready).slice(0, 180),
     ai_readability: compact(source.ai_readability).slice(0, 180),
+    geo_readiness: compact(source.geo_readiness).slice(0, 180),
     saveability: compact(source.saveability).slice(0, 180),
     photo_route_score: compact(source.photo_route_score).slice(0, 180)
   };
@@ -157,7 +158,7 @@ function diagnosisPrompt(place, competitors, report) {
 Google Maps / Places API で取得できる公開情報だけを使い、店舗オーナー向けに「実際に判定した」診断JSONを作ってください。
 
 重要:
-- okyakusa-ma.com の世界観診断はしない。ここでは Maps公開情報、観光客、AI検索、保存、写真/導線を診断する
+- okyakusa-ma.com の世界観診断はしない。ここでは Maps公開情報、観光客、AI検索、GEO、保存、写真/導線を診断する
 - 事実と仮説を分ける。未取得情報は「未確認」「可能性」と書く
 - MEO順位保証、Google公式診断のような表現は禁止
 - 点数は改善目安。baseline_scoresを参考にしつつ、下の基準で再判定する
@@ -171,9 +172,11 @@ Google Maps / Places API で取得できる公開情報だけを使い、店舗�
   土地勘のない人・訪日客が、営業中か、行き方、支払い、連絡、Web/予約、写真で安心できるか。
 3. ai_readability:
   AI検索が「どんな店か」「誰に向くか」「なぜ行く価値があるか」を説明しやすい公開材料があるか。
-4. saveability:
+4. geo_readiness:
+  Google Maps、公式サイト、口コミ、写真、SNS/予約導線が矛盾なく、AI推薦時代の判断材料としてつながっているか。
+5. saveability:
   評価、口コミ、写真、Web導線、名物/利用シーンの見え方から、保存・比較されやすいか。
-5. photo_route_score:
+6. photo_route_score:
   写真枚数、入口/外観/店内/価格/アクセスを想像できる材料、駐車場・電話・Web導線の見え方。
 
 公開情報:
@@ -187,6 +190,7 @@ ${JSON.stringify(publicFacts(place, competitors, report), null, 2)}
     "maps_presence_score": 0,
     "tourist_ready": 0,
     "ai_readability": 0,
+    "geo_readiness": 0,
     "saveability": 0,
     "photo_route_score": 0
   },
@@ -195,6 +199,7 @@ ${JSON.stringify(publicFacts(place, competitors, report), null, 2)}
     "maps_presence_score": "なぜこの点数か",
     "tourist_ready": "なぜこの点数か",
     "ai_readability": "なぜこの点数か",
+    "geo_readiness": "なぜこの点数か",
     "saveability": "なぜこの点数か",
     "photo_route_score": "なぜこの点数か"
   },
@@ -244,6 +249,7 @@ async function generateMapsPublicDiagnosis(place, competitors, report) {
       maps_presence_score: clampScore(parsed.scores?.maps_presence_score, report.maps_presence_score),
       tourist_ready: clampScore(parsed.scores?.tourist_ready, report.tourist_ready),
       ai_readability: clampScore(parsed.scores?.ai_readability, report.ai_readability),
+      geo_readiness: clampScore(parsed.scores?.geo_readiness, report.geo_readiness),
       saveability: clampScore(parsed.scores?.saveability, report.saveability),
       photo_route_score: clampScore(parsed.scores?.photo_route_score, report.photo_route_score || report.saveability)
     },

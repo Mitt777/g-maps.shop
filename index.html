@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="google-site-verification" content="qQKkxQXANb3fTyhHtqQEWzpfv6EfmKsd-rmgZ7Ik-Qw" />
-    <title>g-maps.shop | Google Maps Public Presence Analyzer</title>
+    <title>無料MEO診断｜Google Mapsの見え方・GEO対応チェック｜g-maps.shop</title>
     <meta
       name="description"
-      content="Google Maps URLを貼るだけで、お店の公開情報、来店前情報、インバウンド視点、AI検索での見え方を軽く診断します。"
+      content="Google Maps URLや店名を入れるだけで、お店のMEO、写真、口コミ、営業時間、Web導線、観光客対応、AI検索/GEOでの見え方を無料診断します。"
     />
     <link rel="stylesheet" href="/styles.css" />
   </head>
@@ -152,24 +152,26 @@
 
           <article class="radar-report-card">
             <div class="radar-wrap">
-              <svg id="score-radar" viewBox="0 0 240 240" role="img" aria-label="5つの診断指標">
-                <polygon points="120,18 217,88 180,202 60,202 23,88" class="radar-grid-outer"></polygon>
-                <polygon points="120,59 178,101 156,169 84,169 62,101" class="radar-grid-inner"></polygon>
+              <svg id="score-radar" viewBox="0 0 240 240" role="img" aria-label="6つの診断指標">
+                <polygon points="120,18 208,69 208,171 120,222 32,171 32,69" class="radar-grid-outer"></polygon>
+                <polygon points="120,62 170,91 170,149 120,178 70,149 70,91" class="radar-grid-inner"></polygon>
                 <line x1="120" y1="120" x2="120" y2="18"></line>
-                <line x1="120" y1="120" x2="217" y2="88"></line>
-                <line x1="120" y1="120" x2="180" y2="202"></line>
-                <line x1="120" y1="120" x2="60" y2="202"></line>
-                <line x1="120" y1="120" x2="23" y2="88"></line>
-                <polygon id="radar-polygon" points="120,48 188,98 162,177 78,177 52,98" class="radar-area"></polygon>
+                <line x1="120" y1="120" x2="208" y2="69"></line>
+                <line x1="120" y1="120" x2="208" y2="171"></line>
+                <line x1="120" y1="120" x2="120" y2="222"></line>
+                <line x1="120" y1="120" x2="32" y2="171"></line>
+                <line x1="120" y1="120" x2="32" y2="69"></line>
+                <polygon id="radar-polygon" points="120,48 180,86 176,164 120,183 64,164 60,86" class="radar-area"></polygon>
                 <g id="radar-points"></g>
               </svg>
             </div>
             <div class="diagnosis-list">
-              <p class="card-label">5つの診断指標</p>
-              <p>Maps、観光客、AI検索、保存されやすさ、写真/導線をまとめて見ます。</p>
+              <p class="card-label">6つの診断指標</p>
+              <p>Maps、観光客、AI検索、GEO、保存されやすさ、写真/導線をまとめて見ます。</p>
               <div class="diagnosis-metric"><span class="dot maps"></span><strong>Maps整備度</strong><b id="metric-maps">72</b></div>
               <div class="diagnosis-metric"><span class="dot tourist"></span><strong>Tourist Ready</strong><b id="metric-tourist">66</b></div>
               <div class="diagnosis-metric"><span class="dot ai"></span><strong>AI Readability</strong><b id="metric-ai">70</b></div>
+              <div class="diagnosis-metric"><span class="dot geo"></span><strong>GEO Readiness</strong><b id="metric-geo">64</b></div>
               <div class="diagnosis-metric"><span class="dot save"></span><strong>Saveability</strong><b id="metric-save">61</b></div>
               <div class="diagnosis-metric"><span class="dot photos"></span><strong>Photos / Route</strong><b id="metric-photo">58</b></div>
             </div>
@@ -333,6 +335,31 @@
             </ul>
             <a class="quiet-link" href="https://okyakusa-ma.com">世界観や一枚ショップカードは okyakusa-ma.com へ</a>
           </article>
+        </div>
+      </section>
+
+      <section class="guide-links">
+        <div>
+          <p class="eyebrow">MEO / GEO guide</p>
+          <h2>Google Mapsの見え方を整えるために</h2>
+          <p>無料診断の背景にある考え方を、店主向けに短く整理しました。MEO、Google Maps公開情報、GEOの順に読むと、今どこを直せばよいかが見えやすくなります。</p>
+        </div>
+        <div class="guide-grid">
+          <a href="/meo-diagnosis">
+            <span>MEO diagnosis</span>
+            <strong>MEO診断とは</strong>
+            <em>検索・地図・口コミ・写真を、来店前の判断材料として点検します。</em>
+          </a>
+          <a href="/google-maps-check">
+            <span>Google Maps check</span>
+            <strong>Google Mapsチェックリスト</strong>
+            <em>営業時間、写真、口コミ、Web導線、駐車場情報を確認します。</em>
+          </a>
+          <a href="/geo-meo">
+            <span>GEO readiness</span>
+            <strong>SEOからMEO、そしてGEOへ</strong>
+            <em>AI検索時代に、Google Maps情報がどう読まれるかを整理します。</em>
+          </a>
         </div>
       </section>
 

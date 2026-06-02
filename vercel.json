@@ -10,6 +10,26 @@
       "use": "@vercel/static"
     },
     {
+      "src": "meo-diagnosis/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "google-maps-check/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "geo-meo/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "sitemap.xml",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "robots.txt",
+      "use": "@vercel/static"
+    },
+    {
       "src": "styles.css",
       "use": "@vercel/static"
     },
@@ -46,6 +66,26 @@
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/meo-diagnosis/?",
+      "dest": "/meo-diagnosis/index.html"
+    },
+    {
+      "src": "/google-maps-check/?",
+      "dest": "/google-maps-check/index.html"
+    },
+    {
+      "src": "/geo-meo/?",
+      "dest": "/geo-meo/index.html"
     },
     {
       "src": "/nasu/?",

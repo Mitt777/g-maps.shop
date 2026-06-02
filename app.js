@@ -22,6 +22,7 @@ const fields = {
   metricMaps: document.querySelector("#metric-maps"),
   metricTourist: document.querySelector("#metric-tourist"),
   metricAi: document.querySelector("#metric-ai"),
+  metricGeo: document.querySelector("#metric-geo"),
   metricSave: document.querySelector("#metric-save"),
   metricPhoto: document.querySelector("#metric-photo"),
   radarPolygon: document.querySelector("#radar-polygon"),
@@ -228,6 +229,9 @@ function renderResult(data) {
   const photoRouteScore = typeof report.photo_route_score === "number"
     ? report.photo_route_score
     : photoRouteValue(place, report);
+  const geoReadiness = typeof report.geo_readiness === "number"
+    ? report.geo_readiness
+    : geoReadinessValue(place, report);
 
   statusMessage.scrollIntoView({ behavior: "smooth", block: "start" });
   fields.score.textContent = formatScore(report.maps_presence_score);
@@ -237,6 +241,7 @@ function renderResult(data) {
   fields.metricMaps.textContent = formatScore(report.maps_presence_score);
   fields.metricTourist.textContent = formatScore(report.tourist_ready);
   fields.metricAi.textContent = formatScore(report.ai_readability);
+  fields.metricGeo.textContent = formatScore(geoReadiness);
   fields.metricSave.textContent = formatScore(report.saveability);
   fields.metricPhoto.textContent = formatScore(photoRouteScore);
   fields.priorityFix.textContent = report.free_insight?.today_fix || report.quick_fixes?.[0] || "公開情報を確認する";
@@ -245,6 +250,7 @@ function renderResult(data) {
     Number(report.maps_presence_score || 0),
     Number(report.tourist_ready || 0),
     Number(report.ai_readability || 0),
+    geoReadiness,
     Number(report.saveability || 0),
     photoRouteScore
   ]);
@@ -289,7 +295,7 @@ function renderReportSummary(summary) {
 function renderRadar(values) {
   const center = { x: 120, y: 120 };
   const maxRadius = 96;
-  const angles = [-90, -18, 54, 126, 198];
+  const angles = [-90, -30, 30, 90, 150, 210];
   const points = values.map((value, index) => {
     const radius = Math.max(0, Math.min(100, value)) / 100 * maxRadius;
     const rad = angles[index] * Math.PI / 180;
@@ -306,6 +312,17 @@ function renderRadar(values) {
     circle.setAttribute("r", "7");
     return circle;
   }));
+}
+
+function geoReadinessValue(place, report) {
+  const hasSummary = Boolean(place.editorial_summary || place.generative_summary || place.review_summary);
+  const hasWebsite = Boolean(place.website_url || place.website_uri);
+  const hasHours = (place.weekday_descriptions || []).length > 0;
+  const photos = Number(place.photos_count || 0);
+  const reviews = Number(place.review_count || place.user_rating_count || 0);
+  const base = Number(report.ai_readability || 0) * 0.45 + Number(report.maps_presence_score || 0) * 0.35;
+  const context = (hasSummary ? 8 : 0) + (hasWebsite ? 6 : 0) + (hasHours ? 4 : 0) + (photos >= 8 ? 4 : 0) + (reviews >= 10 ? 4 : 0);
+  return Math.min(100, Math.round(base + context));
 }
 
 function photoRouteValue(place, report) {

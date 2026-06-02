@@ -58,6 +58,18 @@ function scorePresence(place, competitors = []) {
     { ok: hasAnyTrue(place.service_options), weight: 6 }
   ]);
 
+  const geoReadiness = weightedScore([
+    { ok: Boolean(place.name), weight: 10 },
+    { ok: Boolean(place.address), weight: 10 },
+    { ok: Boolean(place.category || place.primary_type_label || place.primary_type), weight: 11 },
+    { ok: (place.weekday_descriptions || []).length > 0, weight: 12 },
+    { ok: Boolean(place.website_url || place.website_uri), weight: 12 },
+    { ok: Boolean(place.editorial_summary || place.generative_summary || place.review_summary), weight: 17 },
+    { ok: Number(place.review_count || place.user_rating_count || 0) >= 10, weight: 10 },
+    { ok: Number(place.photos_count || 0) >= 8, weight: 10 },
+    { ok: hasAnyTrue(place.parking_options) || hasAnyTrue(place.service_options), weight: 8 }
+  ]);
+
   const inboundReady = weightedScore([
     { ok: Boolean(place.name), weight: 10 },
     { ok: Boolean(place.address), weight: 10 },
@@ -87,13 +99,14 @@ function scorePresence(place, competitors = []) {
     maps_presence_score: mapsPresenceScore,
     tourist_ready: touristReady,
     ai_readability: aiReadability,
+    geo_readiness: geoReadiness,
     saveability,
     inbound_ready: inboundReady,
     entry_anxiety_relief: entryAnxiety,
     checked_items: checks.map(({ key, label, ok }) => ({ key, label, ok })),
     strengths: strong.slice(0, 5).map((label) => `${label}は公開情報として確認できます`),
     missing_items: missing,
-    free_insight: buildFreeInsight(place, mapsPresenceScore, touristReady, aiReadability, saveability),
+    free_insight: buildFreeInsight(place, mapsPresenceScore, touristReady, aiReadability, geoReadiness, saveability),
     quick_fixes: buildQuickFixes(place, missing),
     public_layers: buildPublicLayers(place),
     deep_checks: buildDeepChecks(place, { inboundReady, entryAnxiety }),
@@ -122,7 +135,7 @@ function buildQuickFixes(place, missing) {
   return fixes.slice(0, 5);
 }
 
-function buildFreeInsight(place, mapsScore, touristReady, aiReadability, saveability) {
+function buildFreeInsight(place, mapsScore, touristReady, aiReadability, geoReadiness, saveability) {
   const reviews = Number(place.review_count || place.user_rating_count || 0);
   const photos = Number(place.photos_count || 0);
   const hasWebsite = Boolean(place.website_url || place.website_uri);
@@ -143,7 +156,7 @@ function buildFreeInsight(place, mapsScore, touristReady, aiReadability, saveabi
     customer_view: buildCustomerView({ hasWebsite, hasHours, hasParking, photos, reviews }),
     tourist_view: buildTouristView({ hasWebsite, hasHours, hasParking, hasPayment, photos }),
     ai_search_view: buildAiSearchView({ hasSummary, hasWebsite, reviews, aiReadability }),
-    score_note: `Maps ${mapsScore} / Tourist ${touristReady} / AI ${aiReadability} / Save ${saveability}`
+    score_note: `Maps ${mapsScore} / Tourist ${touristReady} / AI ${aiReadability} / GEO ${geoReadiness} / Save ${saveability}`
   };
 }
 

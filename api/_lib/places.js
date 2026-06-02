@@ -120,6 +120,7 @@ function applyMapsDiagnosis(report, diagnosis) {
   report.maps_presence_score = scores.maps_presence_score;
   report.tourist_ready = scores.tourist_ready;
   report.ai_readability = scores.ai_readability;
+  report.geo_readiness = scores.geo_readiness;
   report.saveability = scores.saveability;
   report.photo_route_score = scores.photo_route_score;
   report.overall_score = diagnosis.total_score;
@@ -160,7 +161,7 @@ function applyMapsDiagnosis(report, diagnosis) {
     paid_boundary: diagnosis.paid_boundary
   };
 
-  report.free_insight.score_note = `Maps ${report.maps_presence_score} / Tourist ${report.tourist_ready} / AI ${report.ai_readability} / Save ${report.saveability}`;
+  report.free_insight.score_note = `Maps ${report.maps_presence_score} / Tourist ${report.tourist_ready} / AI ${report.ai_readability} / GEO ${report.geo_readiness} / Save ${report.saveability}`;
   return report;
 }
 
