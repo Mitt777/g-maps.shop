@@ -22,6 +22,18 @@
       "use": "@vercel/static"
     },
     {
+      "src": "restaurant-meo/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "tourism-meo/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "google-business-profile-check/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "sitemap.xml",
       "use": "@vercel/static"
     },
@@ -86,6 +98,18 @@
     {
       "src": "/geo-meo/?",
       "dest": "/geo-meo/index.html"
+    },
+    {
+      "src": "/restaurant-meo/?",
+      "dest": "/restaurant-meo/index.html"
+    },
+    {
+      "src": "/tourism-meo/?",
+      "dest": "/tourism-meo/index.html"
+    },
+    {
+      "src": "/google-business-profile-check/?",
+      "dest": "/google-business-profile-check/index.html"
     },
     {
       "src": "/nasu/?",
