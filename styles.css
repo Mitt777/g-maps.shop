@@ -534,23 +534,25 @@ input:focus {
 }
 
 .primary-button {
-  min-height: 48px;
+  min-height: 62px;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 14px;
   border: 0;
-  border-radius: 8px;
-  background: var(--ink);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2f8d6f, #1f6f58);
   color: white;
   cursor: pointer;
   font: inherit;
-  font-weight: 700;
-  padding: 0 16px;
+  font-size: 17px;
+  font-weight: 800;
+  padding: 0 30px;
+  box-shadow: 0 16px 34px rgba(31, 111, 88, 0.22);
 }
 
 .primary-button:hover {
-  background: var(--accent-strong);
+  background: linear-gradient(135deg, #37a680, #247b62);
 }
 
 .primary-button:disabled {
@@ -1528,7 +1530,7 @@ dd {
   }
 
   .primary-button {
-    min-height: 52px;
+    min-height: 58px;
   }
 
   .main-score h3 {
