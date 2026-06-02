@@ -82,7 +82,7 @@ function scorePresence(place, competitors = []) {
     { ok: Boolean(place.editorial_summary || place.generative_summary || place.review_summary), weight: 9 }
   ]);
 
-  const entryAnxiety = weightedScore([
+  const rawEntryAnxiety = weightedScore([
     { ok: Number(place.photos_count || 0) >= 5, weight: 22 },
     { ok: (place.weekday_descriptions || []).length > 0, weight: 18 },
     { ok: Boolean(place.phone), weight: 10 },
@@ -91,6 +91,8 @@ function scorePresence(place, competitors = []) {
     { ok: hasAnyTrue(place.service_options), weight: 8 },
     { ok: Number(place.review_count || place.user_rating_count || 0) >= 10, weight: 15 }
   ]);
+  const anxietyCap = anxietyReliefCap(place);
+  const entryAnxiety = Math.min(rawEntryAnxiety, anxietyCap);
 
   const missing = checks.filter((check) => !check.ok).map((check) => check.label);
   const strong = checks.filter((check) => check.ok).map((check) => check.label);
@@ -120,6 +122,20 @@ function weightedScore(items) {
   const total = items.reduce((sum, item) => sum + item.weight, 0);
   const earned = items.filter((item) => item.ok).reduce((sum, item) => sum + item.weight, 0);
   return Math.round((earned / total) * 100);
+}
+
+function anxietyReliefCap(place) {
+  const photos = Number(place.photos_count || 0);
+  const hasWebsite = Boolean(place.website_url || place.website_uri);
+  const hasHours = (place.weekday_descriptions || []).length > 0;
+  const hasParking = hasAnyTrue(place.parking_options);
+  const hasPayment = hasAnyTrue(place.payment_options);
+  const hasSummary = Boolean(place.editorial_summary || place.generative_summary || place.review_summary);
+
+  if (photos >= 15 && hasWebsite && hasHours && hasParking && hasPayment && hasSummary) return 86;
+  if (photos >= 10 && hasWebsite && hasHours && (hasParking || hasSummary)) return 78;
+  if (photos >= 5 && hasHours) return 68;
+  return 56;
 }
 
 function buildQuickFixes(place, missing) {
@@ -264,9 +280,11 @@ function buildDeepChecks(place, scores) {
       label: "Anxiety",
       title: "初来店の不安軽減",
       score: scores.entryAnxiety,
-      note: photos >= 5 && hasHours
-        ? "入口・店内・営業中感を来店前に想像しやすい状態です。"
-        : "外観、入口、席、価格、駐車場が分かる情報を足すと安心されます。"
+      note: scores.entryAnxiety >= 78
+        ? "公開情報の土台は強めです。実際の入口・席・価格写真は深掘りで確認します。"
+        : photos >= 5 && hasHours
+          ? "写真と営業時間はありますが、入口・席・価格・駐車場の安心材料はまだ増やせます。"
+          : "外観、入口、席、価格、駐車場が分かる情報を足すと安心されます。"
     },
     {
       label: "Photo",

@@ -154,6 +154,28 @@ h1 {
   max-width: 760px;
 }
 
+.hero-title {
+  color: #1f332c;
+}
+
+.hero-title span,
+.hero-title strong {
+  display: inline;
+}
+
+.hero-title span:first-child {
+  color: #235f4c;
+}
+
+.hero-title strong {
+  color: #111815;
+  font-weight: 850;
+}
+
+.hero-title span:last-child {
+  color: #5c6a62;
+}
+
 .hero-visual {
   position: relative;
   width: min(100%, 760px);
