@@ -1435,13 +1435,33 @@ dd {
   }
 
   h1 {
-    font-size: 30px;
-    line-height: 1.12;
+    font-size: 27px;
+    line-height: 1.14;
+    margin-bottom: 12px;
   }
 
   .lead {
-    margin-bottom: 20px;
-    font-size: 15px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-copy > .eyebrow {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .hero-visual {
+    order: 5;
+    aspect-ratio: 16 / 6.2;
+    margin: 14px 0 0;
+    border-radius: 10px;
+    box-shadow: 0 14px 34px rgba(30, 38, 34, 0.1);
   }
 
   .axis-row {
@@ -1483,7 +1503,7 @@ dd {
   .score-card,
   .place-card,
   .fix-card {
-    padding: 16px;
+    padding: 13px;
   }
 
   .analyzer-panel {
@@ -1491,11 +1511,16 @@ dd {
   }
 
   .panel-head {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
   .panel-head h2 {
-    font-size: 22px;
+    font-size: 18px;
+  }
+
+  .panel-head .eyebrow {
+    margin-bottom: 5px;
+    font-size: 10px;
   }
 
   input {
@@ -1505,32 +1530,64 @@ dd {
   .required-label {
     align-items: flex-start;
     flex-wrap: wrap;
-    font-size: 16px;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .required-label strong {
+    min-height: 26px;
+    font-size: 12px;
+    padding: 0 10px;
   }
 
   .search-guidance {
-    font-size: 13px;
+    display: none;
   }
 
   .search-box {
     grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 10px;
+    gap: 8px;
+    padding: 8px;
   }
 
   .search-box input {
-    min-height: 54px;
-    font-size: 17px;
+    min-height: 48px;
+    font-size: 15px;
     padding: 0 8px;
   }
 
   .search-confirm-button {
     width: 100%;
-    min-height: 52px;
+    min-height: 44px;
+  }
+
+  .analyze-form {
+    gap: 10px;
+  }
+
+  .search-note {
+    display: none;
+  }
+
+  .candidate-panel {
+    order: 3;
   }
 
   .primary-button {
-    min-height: 58px;
+    order: 4;
+    min-height: 54px;
+    font-size: 16px;
+    padding: 0 22px;
+  }
+
+  .detail-inputs {
+    order: 5;
+  }
+
+  .form-note {
+    order: 6;
+    font-size: 10px;
+    line-height: 1.5;
   }
 
   .main-score h3 {
