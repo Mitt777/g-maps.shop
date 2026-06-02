@@ -18,6 +18,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "assets/**/*",
+      "use": "@vercel/static"
+    },
+    {
       "src": "api/**/*.js",
       "use": "@vercel/node"
     }
@@ -38,6 +42,10 @@
     {
       "src": "/app.js",
       "dest": "/app.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
       "src": "/nasu/?",
