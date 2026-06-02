@@ -1457,9 +1457,9 @@ dd {
   }
 
   .hero-visual {
-    order: 5;
-    aspect-ratio: 16 / 6.2;
-    margin: 14px 0 0;
+    order: -1;
+    aspect-ratio: 16 / 7.2;
+    margin: 0 0 14px;
     border-radius: 10px;
     box-shadow: 0 14px 34px rgba(30, 38, 34, 0.1);
   }
