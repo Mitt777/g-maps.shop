@@ -29,96 +29,78 @@
         <div class="hero-copy">
           <p class="eyebrow">Google Maps Public Presence Analyzer</p>
           <h1>Google Mapsで、あなたのお店はどう見えていますか。</h1>
+          <div class="hero-visual" aria-hidden="true">
+            <img src="/assets/gmaps-hero-1.jpg" alt="" />
+            <img src="/assets/gmaps-hero-2.jpg" alt="" />
+          </div>
           <p class="lead">
             Google Maps URLを貼るだけで、口コミ、写真、営業時間、Web導線、
             インバウンド視点、AI検索での見え方を軽く診断します。
           </p>
-          <div class="axis-row" aria-label="Diagnosis axes">
-            <span>Maps整備度</span>
-            <span>Tourist readiness</span>
-            <span>AI readability</span>
-          </div>
-          <div class="signal-board" aria-label="Public presence signals">
-            <div>
-              <span>01</span>
-              <strong>Public data</strong>
-              <p>営業時間・写真・口コミ・Web導線を確認</p>
+
+          <section class="analyzer-panel" aria-labelledby="form-title">
+            <div class="panel-head">
+              <p class="eyebrow">No login required</p>
+              <h2 id="form-title">公開情報を診断する</h2>
             </div>
-            <div>
-              <span>02</span>
-              <strong>AI diagnosis</strong>
-              <p>観光客とAI検索からの見え方を判定</p>
-            </div>
-            <div>
-              <span>03</span>
-              <strong>One fix</strong>
-              <p>今日直す1点だけ先に出す</p>
-            </div>
-          </div>
+
+            <form id="analyze-form" class="analyze-form">
+              <input id="place-id" name="place_id" type="hidden" />
+              <label>
+                <span class="label-row">
+                  <span>Google Maps URL</span>
+                  <button class="text-button" type="button" aria-expanded="false" aria-controls="maps-url-help" id="maps-help-toggle">
+                    URLの探し方
+                  </button>
+                </span>
+                <input
+                  id="maps-url"
+                  name="maps_url"
+                  type="url"
+                  inputmode="url"
+                  autocomplete="url"
+                  placeholder="https://maps.app.goo.gl/..."
+                />
+              </label>
+              <div class="help-box" id="maps-url-help" hidden>
+                <ol>
+                  <li>Google Mapsでお店を開く</li>
+                  <li>共有を押してリンクをコピー</li>
+                  <li>ここに貼り付ける</li>
+                </ol>
+              </div>
+
+              <div class="or-line"><span>または</span></div>
+
+              <div class="field-grid">
+                <label>
+                  <span>店名</span>
+                  <input id="store-name" name="store_name" type="text" autocomplete="organization" placeholder="例: Sample Coffee" />
+                </label>
+                <label>
+                  <span>地域</span>
+                  <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
+                </label>
+              </div>
+              <div class="lookup-row">
+                <button class="secondary-button" id="place-search-button" type="button">店舗候補を探す</button>
+                <span>URLがなくても、公開候補から選べます。</span>
+              </div>
+              <div class="candidate-panel" id="candidate-panel" hidden>
+                <p class="candidate-status" id="candidate-status">このお店で良ければ候補をクリックしてください。</p>
+                <div class="candidate-list" id="candidate-list"></div>
+              </div>
+
+              <button class="primary-button" id="analyze-button" type="submit">
+                <span>Google Mapsの見え方を診断する</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="form-note">
+                Google公式サービスではありません。Google Maps上の公開情報をもとに、お客様・観光客・AI検索からの見え方を整理します。
+              </p>
+            </form>
+          </section>
         </div>
-
-        <section class="analyzer-panel" aria-labelledby="form-title">
-          <div class="panel-head">
-            <p class="eyebrow">No login required</p>
-            <h2 id="form-title">公開情報を診断する</h2>
-          </div>
-
-          <form id="analyze-form" class="analyze-form">
-            <input id="place-id" name="place_id" type="hidden" />
-            <label>
-              <span class="label-row">
-                <span>Google Maps URL</span>
-                <button class="text-button" type="button" aria-expanded="false" aria-controls="maps-url-help" id="maps-help-toggle">
-                  URLの探し方
-                </button>
-              </span>
-              <input
-                id="maps-url"
-                name="maps_url"
-                type="url"
-                inputmode="url"
-                autocomplete="url"
-                placeholder="https://maps.app.goo.gl/..."
-              />
-            </label>
-            <div class="help-box" id="maps-url-help" hidden>
-              <ol>
-                <li>Google Mapsでお店を開く</li>
-                <li>共有を押してリンクをコピー</li>
-                <li>ここに貼り付ける</li>
-              </ol>
-            </div>
-
-            <div class="or-line"><span>または</span></div>
-
-            <div class="field-grid">
-              <label>
-                <span>店名</span>
-                <input id="store-name" name="store_name" type="text" autocomplete="organization" placeholder="例: Sample Coffee" />
-              </label>
-              <label>
-                <span>地域</span>
-                <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
-              </label>
-            </div>
-            <div class="lookup-row">
-              <button class="secondary-button" id="place-search-button" type="button">店舗候補を探す</button>
-              <span>URLがなくても、公開候補から選べます。</span>
-            </div>
-            <div class="candidate-panel" id="candidate-panel" hidden>
-              <p class="candidate-status" id="candidate-status">このお店で良ければ候補をクリックしてください。</p>
-              <div class="candidate-list" id="candidate-list"></div>
-            </div>
-
-            <button class="primary-button" id="analyze-button" type="submit">
-              <span>Google Mapsの見え方を診断する</span>
-              <span aria-hidden="true">→</span>
-            </button>
-            <p class="form-note">
-              Google公式サービスではありません。Google Maps上の公開情報をもとに、お客様・観光客・AI検索からの見え方を整理します。
-            </p>
-          </form>
-        </section>
       </section>
 
       <section class="result-shell" aria-live="polite">
