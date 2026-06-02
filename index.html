@@ -48,53 +48,73 @@
 
             <form id="analyze-form" class="analyze-form">
               <input id="place-id" name="place_id" type="hidden" />
-              <label>
-                <span class="label-row">
-                  <span>Google Maps URL</span>
-                  <button class="text-button" type="button" aria-expanded="false" aria-controls="maps-url-help" id="maps-help-toggle">
-                    URLの探し方
-                  </button>
+              <label class="search-hero-field">
+                <span class="required-label">
+                  MEO診断したいお店を教えてください
+                  <strong>必須</strong>
                 </span>
-                <input
-                  id="maps-url"
-                  name="maps_url"
-                  type="url"
-                  inputmode="url"
-                  autocomplete="url"
-                  placeholder="https://maps.app.goo.gl/..."
-                />
+                <span class="search-guidance">
+                  まずは店名だけでも大丈夫です。Google Maps URLがあると、検索・写真・口コミ・導線の診断が深くなります。
+                </span>
+                <span class="search-box">
+                  <input
+                    id="quick-query"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="例: リビングストン 黒磯 / 森の入口カフェ 那須 / https://..."
+                  />
+                  <button class="secondary-button search-confirm-button" id="place-search-button" type="button">お店候補を確認</button>
+                </span>
               </label>
-              <div class="help-box" id="maps-url-help" hidden>
-                <ol>
-                  <li>Google Mapsでお店を開く</li>
-                  <li>共有を押してリンクをコピー</li>
-                  <li>ここに貼り付ける</li>
-                </ol>
-              </div>
+              <p class="search-note">
+                店名だけでも始められます。候補を確認してお店を選び、下の「無料MEO診断を申し込む」へ進んでください。
+              </p>
 
-              <div class="or-line"><span>または</span></div>
+              <details class="detail-inputs">
+                <summary>Google Maps URL・地域を直接入力する</summary>
+                <label>
+                  <span class="label-row">
+                    <span>Google Maps URL</span>
+                    <button class="text-button" type="button" aria-expanded="false" aria-controls="maps-url-help" id="maps-help-toggle">
+                      URLの探し方
+                    </button>
+                  </span>
+                  <input
+                    id="maps-url"
+                    name="maps_url"
+                    type="url"
+                    inputmode="url"
+                    autocomplete="url"
+                    placeholder="https://maps.app.goo.gl/..."
+                  />
+                </label>
+                <div class="help-box" id="maps-url-help" hidden>
+                  <ol>
+                    <li>Google Mapsでお店を開く</li>
+                    <li>共有を押してリンクをコピー</li>
+                    <li>ここに貼り付ける</li>
+                  </ol>
+                </div>
 
-              <div class="field-grid">
-                <label>
-                  <span>店名</span>
-                  <input id="store-name" name="store_name" type="text" autocomplete="organization" placeholder="例: Sample Coffee" />
-                </label>
-                <label>
-                  <span>地域</span>
-                  <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
-                </label>
-              </div>
-              <div class="lookup-row">
-                <button class="secondary-button" id="place-search-button" type="button">店舗候補を探す</button>
-                <span>URLがなくても、公開候補から選べます。</span>
-              </div>
+                <div class="field-grid">
+                  <label>
+                    <span>店名</span>
+                    <input id="store-name" name="store_name" type="text" autocomplete="organization" placeholder="例: Sample Coffee" />
+                  </label>
+                  <label>
+                    <span>地域</span>
+                    <input id="area" name="area" type="text" autocomplete="address-level2" placeholder="例: 渋谷 / 京都駅" />
+                  </label>
+                </div>
+              </details>
+
               <div class="candidate-panel" id="candidate-panel" hidden>
                 <p class="candidate-status" id="candidate-status">このお店で良ければ候補をクリックしてください。</p>
                 <div class="candidate-list" id="candidate-list"></div>
               </div>
 
               <button class="primary-button" id="analyze-button" type="submit">
-                <span>Google Mapsの見え方を診断する</span>
+                <span>無料MEO診断を申し込む</span>
                 <span aria-hidden="true">→</span>
               </button>
               <p class="form-note">

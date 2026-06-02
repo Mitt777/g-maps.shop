@@ -8,6 +8,10 @@ const candidatePanel = document.querySelector("#candidate-panel");
 const candidateStatus = document.querySelector("#candidate-status");
 const candidateList = document.querySelector("#candidate-list");
 const placeIdInput = document.querySelector("#place-id");
+const quickQueryInput = document.querySelector("#quick-query");
+const mapsUrlInput = document.querySelector("#maps-url");
+const storeNameInput = document.querySelector("#store-name");
+const areaInput = document.querySelector("#area");
 
 const fields = {
   score: document.querySelector("#score-value"),
@@ -60,17 +64,18 @@ mapsHelpToggle.addEventListener("click", () => {
   mapsHelpToggle.setAttribute("aria-expanded", String(!isOpen));
 });
 
-["#maps-url", "#store-name", "#area"].forEach((selector) => {
-  document.querySelector(selector).addEventListener("input", () => {
+["#quick-query", "#maps-url", "#store-name", "#area"].forEach((selector) => {
+  document.querySelector(selector)?.addEventListener("input", () => {
     placeIdInput.value = "";
   });
 });
 
 placeSearchButton.addEventListener("click", async () => {
+  syncQuickQuery();
   const payload = formPayload();
 
-  if (!payload.store_name && !payload.area) {
-    setCandidateStatus("店名と地域を入力してください。");
+  if (!payload.maps_url && !payload.store_name && !payload.area) {
+    setCandidateStatus("店名、地域、またはGoogle Maps URLを入力してください。");
     return;
   }
 
@@ -107,6 +112,7 @@ placeSearchButton.addEventListener("click", async () => {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  syncQuickQuery();
   const payload = formPayload();
 
   if (!payload.maps_url && !payload.place_id && !payload.store_name && !payload.area) {
@@ -153,6 +159,27 @@ function formPayload() {
   };
 }
 
+function syncQuickQuery() {
+  const query = String(quickQueryInput?.value || "").trim();
+
+  if (!query) return;
+
+  if (/^https?:\/\//i.test(query)) {
+    mapsUrlInput.value = query;
+    storeNameInput.value = "";
+    areaInput.value = "";
+    return;
+  }
+
+  const parts = query.split(/\s+/).filter(Boolean);
+  const lastPart = parts.at(-1) || "";
+  const likelyArea = parts.length >= 2 && /[都道府県市区町村駅那須黒磯塩原渋谷京都鎌倉箱根軽井沢日光]/.test(lastPart);
+
+  mapsUrlInput.value = "";
+  storeNameInput.value = likelyArea ? parts.slice(0, -1).join(" ") : query;
+  areaInput.value = likelyArea ? lastPart : "";
+}
+
 function renderCandidates(candidates) {
   if (candidates.length === 0) {
     candidateList.replaceChildren();
@@ -175,6 +202,8 @@ function renderCandidates(candidates) {
       button.classList.add("is-selected");
       placeIdInput.value = candidate.place_id || "";
       document.querySelector("#maps-url").value = candidate.google_maps_url || "";
+      storeNameInput.value = candidate.name || storeNameInput.value;
+      quickQueryInput.value = [candidate.name, candidate.address].filter(Boolean).join(" / ");
       setCandidateStatus("選択しました。下の診断ボタンで進めます。");
     });
     return button;
@@ -404,9 +433,9 @@ function hydrateInitialQuery() {
 
   if (!query) return;
 
-  const mapsUrlInput = document.querySelector("#maps-url");
-  const storeNameInput = document.querySelector("#store-name");
   const isUrl = /^https?:\/\//i.test(query);
+
+  quickQueryInput.value = query;
 
   if (isUrl) {
     mapsUrlInput.value = query;
