@@ -182,10 +182,17 @@ function renderCandidates(candidates) {
 }
 
 function renderResult(data) {
+  document.querySelector(".result-shell")?.classList.add("has-result");
   const place = data.place || {};
   const report = data.report || {};
   const diagnosis = report.maps_public_diagnosis || {};
   const explanations = report.metric_explanations || diagnosis.metric_explanations || {};
+  const placeName = place.name || report.place_name || report.store_name || "診断店舗";
+  const reportSummaryLines = report.free_insight?.summary?.length
+    ? report.free_insight.summary
+    : diagnosis.summary?.length
+      ? diagnosis.summary
+      : ["Google Maps上の公開情報をもとに、初来店客・観光客・AI検索からの見え方を整理します。"];
   const overallScore = typeof report.overall_score === "number"
     ? report.overall_score
     : report.maps_presence_score;
@@ -193,8 +200,9 @@ function renderResult(data) {
     ? report.photo_route_score
     : photoRouteValue(place, report);
 
+  statusMessage.scrollIntoView({ behavior: "smooth", block: "start" });
   fields.score.textContent = formatScore(report.maps_presence_score);
-  fields.reportPlaceName.textContent = place.name || "Unknown place";
+  fields.reportPlaceName.textContent = placeName;
   fields.ringScore.textContent = formatScore(overallScore);
   fields.scoreRing.style.setProperty("--score", Number(overallScore || 0));
   fields.metricMaps.textContent = formatScore(report.maps_presence_score);
@@ -203,7 +211,7 @@ function renderResult(data) {
   fields.metricSave.textContent = formatScore(report.saveability);
   fields.metricPhoto.textContent = formatScore(photoRouteScore);
   fields.priorityFix.textContent = report.free_insight?.today_fix || report.quick_fixes?.[0] || "公開情報を確認する";
-  renderReportSummary(report.free_insight?.summary);
+  renderReportSummary(reportSummaryLines);
   renderRadar([
     Number(report.maps_presence_score || 0),
     Number(report.tourist_ready || 0),
@@ -219,7 +227,7 @@ function renderResult(data) {
   fields.aiNote.textContent = explanations.ai_readability || "AI検索が説明しやすい店舗情報の整い方。";
   fields.saveNote.textContent = explanations.saveability || "行きたい・保存したいと思われる情報量。";
 
-  fields.placeName.textContent = place.name || "Unknown place";
+  fields.placeName.textContent = placeName;
   fields.placeAddress.textContent = [place.address, place.category].filter(Boolean).join(" / ") || "公開住所・カテゴリ未取得";
   fields.rating.textContent = place.rating ?? "n/a";
   fields.reviews.textContent = place.review_count ?? place.user_rating_count ?? "n/a";
