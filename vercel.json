@@ -34,6 +34,14 @@
       "use": "@vercel/static"
     },
     {
+      "src": "why-free/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "privacy/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "sitemap.xml",
       "use": "@vercel/static"
     },
@@ -110,6 +118,14 @@
     {
       "src": "/google-business-profile-check/?",
       "dest": "/google-business-profile-check/index.html"
+    },
+    {
+      "src": "/why-free/?",
+      "dest": "/why-free/index.html"
+    },
+    {
+      "src": "/privacy/?",
+      "dest": "/privacy/index.html"
     },
     {
       "src": "/nasu/?",

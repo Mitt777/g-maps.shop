@@ -1270,6 +1270,56 @@ dd {
   text-decoration: none;
 }
 
+.content-image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(30, 38, 34, 0.12);
+}
+
+.source-links {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-links a {
+  color: var(--accent-strong);
+  font-weight: 750;
+}
+
+.faq-list {
+  display: grid;
+  gap: 10px;
+}
+
+.faq-list details {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0;
+  overflow: hidden;
+}
+
+.faq-list summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.6;
+  padding: 16px 18px;
+}
+
+.faq-list details p {
+  border-top: 1px solid var(--line);
+  margin: 0;
+  padding: 14px 18px 18px;
+}
+
 .next-services {
   display: grid;
   grid-template-columns: 0.65fr 1.35fr;
