@@ -77,21 +77,53 @@ main {
 }
 
 .brand {
-  gap: 10px;
-  font-weight: 650;
+  gap: 12px;
+  color: #13261f;
+  font-size: 22px;
+  font-weight: 800;
   letter-spacing: 0;
 }
 
 .brand-mark {
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
+  position: relative;
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  background: var(--surface);
-  color: var(--accent-strong);
-  font-size: 12px;
+  border: 1px solid rgba(31, 111, 88, 0.18);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.96) 0 22%, transparent 23%),
+    linear-gradient(135deg, rgba(31, 111, 88, 0.16), rgba(243, 173, 63, 0.18)),
+    var(--surface);
+  box-shadow: 0 12px 28px rgba(30, 38, 34, 0.12);
+}
+
+.brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(31, 111, 88, 0.72);
+  border-radius: 50%;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background: rgba(31, 111, 88, 0.48);
+  transform: rotate(45deg);
+}
+
+.brand-mark span {
+  width: 8px;
+  height: 8px;
+  position: relative;
+  z-index: 1;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(31, 111, 88, 0.14);
 }
 
 .top-nav {
@@ -1458,7 +1490,7 @@ dd {
 
   .hero-visual {
     order: -1;
-    aspect-ratio: 16 / 7.2;
+    aspect-ratio: 16 / 7.9;
     margin: 0 0 14px;
     border-radius: 10px;
     box-shadow: 0 14px 34px rgba(30, 38, 34, 0.1);
