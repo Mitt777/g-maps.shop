@@ -1631,6 +1631,96 @@ dd {
     padding: 18px;
   }
 
+  .result-shell.has-result {
+    padding-top: 24px;
+  }
+
+  .result-shell.has-result .result-layout,
+  .result-shell.has-result .report-hero-card,
+  .result-shell.has-result .radar-report-card {
+    grid-template-columns: 1fr;
+  }
+
+  .result-shell.has-result .report-hero-card {
+    min-height: 0;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  .result-shell.has-result .report-hero-card h3 {
+    margin-bottom: 12px;
+    font-size: clamp(30px, 11vw, 44px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+
+  .result-shell.has-result .report-summary p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .result-shell.has-result .score-ring {
+    width: 148px;
+  }
+
+  .result-shell.has-result .score-ring strong {
+    margin-top: 8px;
+    font-size: 44px;
+  }
+
+  .result-shell.has-result .score-ring span {
+    margin-top: -32px;
+    font-size: 14px;
+  }
+
+  .result-shell.has-result .radar-report-card {
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .result-shell.has-result .radar-wrap {
+    min-height: 160px;
+  }
+
+  .result-shell.has-result #score-radar {
+    width: min(100%, 170px);
+  }
+
+  .result-shell.has-result .diagnosis-list {
+    gap: 10px;
+  }
+
+  .result-shell.has-result .diagnosis-list > p:not(.card-label) {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .result-shell.has-result .diagnosis-metric {
+    grid-template-columns: 20px minmax(0, 1fr) 54px;
+    gap: 9px;
+  }
+
+  .result-shell.has-result .diagnosis-metric strong {
+    font-size: 16px;
+    line-height: 1.25;
+    overflow-wrap: normal;
+  }
+
+  .result-shell.has-result .diagnosis-metric b {
+    font-size: 25px;
+    text-align: right;
+  }
+
+  .result-shell.has-result .priority-card {
+    padding: 18px;
+  }
+
+  .result-shell.has-result .priority-card strong {
+    font-size: 20px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
   .report-summary p {
     font-size: 15px;
   }
