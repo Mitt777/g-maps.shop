@@ -159,6 +159,7 @@ main {
 .hero-copy {
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .eyebrow,
@@ -179,6 +180,8 @@ p {
 }
 
 h1 {
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 24px;
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1.08;
@@ -212,7 +215,7 @@ h1 {
   position: relative;
   width: min(100%, 760px);
   aspect-ratio: 16 / 8.6;
-  margin: 0 0 24px;
+  margin: 0 auto 24px;
   overflow: hidden;
   border: 1px solid rgba(31, 111, 88, 0.16);
   border-radius: 8px;
@@ -273,6 +276,8 @@ h3 {
 }
 
 .lead {
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 30px;
   max-width: 660px;
   color: #4f5a53;
@@ -347,6 +352,8 @@ h3 {
 
 .analyzer-panel {
   max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   overflow: hidden;
   border-color: rgba(31, 111, 88, 0.22);
@@ -1481,6 +1488,10 @@ dd {
   .hero-copy {
     display: flex;
     flex-direction: column;
+  }
+
+  .analyzer-panel {
+    text-align: left;
   }
 
   .hero-copy > .eyebrow {
