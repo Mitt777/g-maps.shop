@@ -50,13 +50,7 @@ const fields = {
   aiInsightSummary: document.querySelector("#ai-insight-summary"),
   aiInsightActions: document.querySelector("#ai-insight-actions"),
   publicLayers: document.querySelector("#public-layers"),
-  deepChecks: document.querySelector("#deep-checks"),
-  comparisonReviews: document.querySelector("#comparison-reviews"),
-  comparisonRating: document.querySelector("#comparison-rating"),
-  comparisonPhotos: document.querySelector("#comparison-photos"),
-  comparisonNote: document.querySelector("#comparison-note"),
-  paidHandoff: document.querySelector("#paid-handoff"),
-  paidPreview: document.querySelector("#paid-preview")
+  deepChecks: document.querySelector("#deep-checks")
 };
 
 mapsHelpToggle.addEventListener("click", () => {
@@ -279,8 +273,6 @@ function renderResult(data) {
   renderInsight(report);
   renderPublicLayers(report.public_layers || []);
   renderDeepChecks(report.deep_checks || []);
-  renderComparison(report.comparison || {});
-  renderPaidPreview(report.paid_preview || {});
 }
 
 function renderReportSummary(summary) {
@@ -355,11 +347,6 @@ function renderInsight(report) {
     item.textContent = text;
     return item;
   }));
-  if (insight?.paid_boundary) {
-    const boundary = document.createElement("li");
-    boundary.textContent = insight.paid_boundary;
-    fields.aiInsightActions.append(boundary);
-  }
 }
 
 function renderPublicLayers(layers) {
@@ -385,23 +372,6 @@ function renderDeepChecks(checks) {
       <b class="layer-score">${escapeHtml(formatScore(check.score))}</b>
       <p>${escapeHtml(check.note || "")}</p>
     `;
-    return item;
-  }));
-}
-
-function renderComparison(comparison) {
-  fields.comparisonReviews.textContent = comparison.review_position || "未判定";
-  fields.comparisonRating.textContent = comparison.rating_position || "未判定";
-  fields.comparisonPhotos.textContent = comparison.photo_position || "未判定";
-  fields.comparisonNote.textContent = comparison.note || "店名 + 地域で診断すると、同じ検索で見つかった候補と比べられます。";
-}
-
-function renderPaidPreview(preview) {
-  fields.paidHandoff.textContent = preview.handoff || "無料診断の次に、Maps公開情報だけを深掘りします。";
-  const items = preview.items || [];
-  fields.paidPreview.replaceChildren(...items.map((text) => {
-    const item = document.createElement("li");
-    item.textContent = text;
     return item;
   }));
 }

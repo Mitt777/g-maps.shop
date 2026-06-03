@@ -341,9 +341,7 @@ h3 {
 .place-card,
 .fix-card,
 .insight-card,
-.detail-card,
-.comparison-card,
-.paid-card {
+.detail-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.9);
@@ -715,8 +713,6 @@ input:focus {
 .fix-card,
 .insight-card,
 .detail-card,
-.comparison-card,
-.paid-card,
 .free-summary-card,
 .view-card {
   padding: 20px;
@@ -855,9 +851,7 @@ input:focus {
 .place-card,
 .fix-card,
 .view-card,
-.detail-card,
-.comparison-card,
-.paid-card {
+.detail-card {
   display: none;
 }
 
@@ -995,8 +989,7 @@ dd {
 }
 
 .fix-card ul,
-.insight-card ul,
-.paid-card ul {
+.insight-card ul {
   display: grid;
   gap: 10px;
   margin: 0;
@@ -1030,8 +1023,7 @@ dd {
     #fff;
 }
 
-.detail-card,
-.paid-card {
+.detail-card {
   display: grid;
   gap: 16px;
   grid-column: 1 / -1;
@@ -1072,8 +1064,6 @@ dd {
 }
 
 .layer-item p,
-.comparison-card p,
-.paid-card p,
 .insight-card p {
   margin-bottom: 0;
   color: var(--muted);
@@ -1087,30 +1077,6 @@ dd {
   font-size: 22px;
   font-weight: 850;
   letter-spacing: 0;
-}
-
-.comparison-card {
-  display: grid;
-  gap: 14px;
-}
-
-.comparison-facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 0;
-}
-
-.comparison-facts div {
-  border-top: 1px solid var(--line);
-  padding-top: 10px;
-}
-
-.paid-card {
-  border-color: rgba(156, 111, 52, 0.35);
-  background:
-    linear-gradient(135deg, rgba(156, 111, 52, 0.1), rgba(31, 111, 88, 0.06)),
-    #fff;
 }
 
 .okm-bridge-section {
@@ -1248,9 +1214,7 @@ dd {
 .result-shell:not(.has-result) .place-card,
 .result-shell:not(.has-result) .fix-card,
 .result-shell:not(.has-result) .view-card,
-.result-shell:not(.has-result) .detail-card,
-.result-shell:not(.has-result) .comparison-card,
-.result-shell:not(.has-result) .paid-card {
+.result-shell:not(.has-result) .detail-card {
   display: none;
 }
 
@@ -1566,7 +1530,6 @@ dd {
   .guide-grid,
   .metric-grid,
   .place-facts,
-  .comparison-facts,
   .layer-grid,
   .view-grid,
   .field-grid,

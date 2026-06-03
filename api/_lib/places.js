@@ -152,13 +152,10 @@ function applyMapsDiagnosis(report, diagnosis) {
     report.weaknesses = diagnosis.weaknesses;
     report.missing_items = diagnosis.weaknesses;
   }
-  if (diagnosis.paid_boundary) {
-    report.paid_preview.handoff = diagnosis.paid_boundary;
-  }
   report.ai_insight = {
     summary: (diagnosis.summary || []).join(" ").slice(0, 120),
     actions: (diagnosis.quick_fixes || []).slice(0, 3),
-    paid_boundary: diagnosis.paid_boundary
+    next_note: diagnosis.next_note
   };
 
   report.free_insight.score_note = `Maps ${report.maps_presence_score} / Tourist ${report.tourist_ready} / AI ${report.ai_readability} / GEO ${report.geo_readiness} / Save ${report.saveability}`;

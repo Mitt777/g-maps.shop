@@ -17,7 +17,7 @@ async function generateMapsInsight(place, report) {
     "あなたはGoogle Maps Public Presence Analyzerです。",
     "MEO順位や広告営業ではなく、Google Maps上の公開情報から、普通の店主が今日直すことを短く説明してください。",
     "okyakusa-ma.comの世界観診断はしません。ここでは公開情報、観光客、AI検索、保存されやすさ、初来店不安だけを冷静に見ます。",
-    "出力は日本語で、100文字以内のsummary、短いactionsを3つ、paid_boundaryを1文。JSONだけを返してください。",
+    "出力は日本語で、100文字以内のsummary、短いactionsを3つ、next_noteを1文。JSONだけを返してください。",
     JSON.stringify({
       place: {
         name: place.name,
@@ -73,7 +73,7 @@ async function generateMapsInsight(place, report) {
     return {
       summary: compact(parsed.summary).slice(0, 120),
       actions: Array.isArray(parsed.actions) ? parsed.actions.map(compact).filter(Boolean).slice(0, 3) : [],
-      paid_boundary: compact(parsed.paid_boundary).slice(0, 120)
+      next_note: compact(parsed.next_note).slice(0, 120)
     };
   } catch (error) {
     return null;
@@ -162,7 +162,7 @@ Google Maps / Places API で取得できる公開情報だけを使い、店舗�
 - 事実と仮説を分ける。未取得情報は「未確認」「可能性」と書く
 - MEO順位保証、Google公式診断のような表現は禁止
 - 点数は改善目安。baseline_scoresを参考にしつつ、下の基準で再判定する
-- 店舗名、カテゴリ、口コミ数、写真数、営業時間、Web導線、電話、駐車場、決済、説明/要約、周辺候補比較を必ず見る
+- 店舗名、カテゴリ、口コミ数、写真数、営業時間、Web導線、電話、駐車場、決済、説明/要約を必ず見る
 - 文章は店主がすぐ理解できる短さにする
 
 診断基準:
@@ -210,7 +210,7 @@ ${JSON.stringify(publicFacts(place, competitors, report), null, 2)}
   "quick_fixes": ["すぐ直すこと", "string", "string", "string", "string"],
   "strengths": ["強み", "string", "string"],
   "weaknesses": ["弱点", "string", "string"],
-  "paid_boundary": "無料ではここまで。深掘りでは何を出すか"
+  "next_note": "次に確認するとよいこと"
 }`;
 }
 
@@ -262,7 +262,7 @@ async function generateMapsPublicDiagnosis(place, competitors, report) {
     quick_fixes: normalizeStringList(parsed.quick_fixes, 5),
     strengths: normalizeStringList(parsed.strengths, 4),
     weaknesses: normalizeStringList(parsed.weaknesses, 4),
-    paid_boundary: compact(parsed.paid_boundary)
+    next_note: compact(parsed.next_note)
   };
 }
 
