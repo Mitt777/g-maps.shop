@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://g-maps.shop/sitemap.xml
+Sitemap: https://www.g-maps.shop/sitemap.xml
